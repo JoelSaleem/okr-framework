@@ -1,21 +1,21 @@
-import Head from 'next/head'
+import Head from "next/head";
+import { Card } from "../src/components/Card";
+import { Button } from "../src/components/Button";
 
 export default function Home() {
   return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <div className="container bg-purple light-gray">
       <main>
         <h1 className="link b black hover-orange">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+        <Card>
+          <p className="description">
+            Get started by editing <code>pages/index.js</code>
+          </p>
+          <Button>Hello</Button>
+        </Card>
 
         <div className="grid">
           <a href="https://nextjs.org/docs" className="card">
@@ -54,7 +54,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </a>
       </footer>
@@ -205,5 +205,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
