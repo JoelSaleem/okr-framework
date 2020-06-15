@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 let jwt = require("jsonwebtoken");
-const getUserId = require("../utils.ts").getUserId;
-const APP_SECRET = require("../utils.ts").APP_SECRET;
+const { getUserId, APP_SECRET } = require("../utils.ts");
 
 async function signup(parent, args, context, info) {
   // 1
