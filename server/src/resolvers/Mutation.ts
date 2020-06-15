@@ -1,8 +1,19 @@
-const bcrypt = require("bcryptjs");
-let jwt = require("jsonwebtoken");
-const { getUserId, APP_SECRET } = require("../utils.ts");
+export {};
+import { GraphQLFieldResolver } from "graphql";
+import {hasClient} from './resolverTypes'
 
-async function signup(parent, args, context, info) {
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { getUserId, APP_SECRET } = require("../utils");
+
+
+
+const signup: GraphQLFieldResolver<void, hasClient> = async (
+  parent,
+  args,
+  context,
+  info
+) => {
   // 1
   const hashedPassword = await bcrypt.hash(args.password, 10);
   // 2
@@ -19,9 +30,14 @@ async function signup(parent, args, context, info) {
     token,
     user,
   };
-}
+};
 
-async function login(parent, args, context, info) {
+const login: GraphQLFieldResolver<void, hasClient> = async (
+  parent,
+  args,
+  context,
+  info
+) => {
   // 1
   const { password, ...user } = await context.prisma.user({
     username: args.username,
@@ -43,7 +59,7 @@ async function login(parent, args, context, info) {
     token,
     user,
   };
-}
+};
 
 module.exports = {
   signup,

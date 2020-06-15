@@ -1,7 +1,7 @@
 const { GraphQLServer } = require("graphql-yoga");
 const { prisma } = require("./generated/prisma-client");
-const Query = require("./resolvers/Query.ts");
-const Mutation = require("./resolvers/Mutation.ts");
+const Query = require("./resolvers/Query");
+const Mutation = require("./resolvers/Mutation");
 
 // 3
 const server = new GraphQLServer({
@@ -10,7 +10,7 @@ const server = new GraphQLServer({
     Query,
     Mutation,
   },
-  context: (request) => {
+  context: (request: any) => {
     return {
       ...request,
       prisma,

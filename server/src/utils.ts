@@ -1,7 +1,9 @@
-const jwt = require("jsonwebtoken");
-let APP_SECRET = "9i3adhkJdb38Hls";
+import { Context } from "prisma-client-lib/dist/types";
 
-let getUserId = (context) => {
+const jwt = require("jsonwebtoken");
+let APP_SECRET = "9i3adhkJdb38Hls"; // Todo: actually make this secret
+
+let getUserId = (context: Context) => {
   const Authorization = context.request.get("Authorization");
   if (Authorization) {
     const token = Authorization.replace("Bearer ", "");
