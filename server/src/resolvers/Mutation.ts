@@ -1,12 +1,10 @@
 export {};
 import { GraphQLFieldResolver } from "graphql";
-import {hasClient} from './resolverTypes'
+import { hasClient } from "./resolverTypes";
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { getUserId, APP_SECRET } = require("../utils");
-
-
 
 const signup: GraphQLFieldResolver<void, hasClient> = async (
   parent,

@@ -2,4 +2,12 @@ type User {
   id: ID! @id
   username: String! @unique
   password: String!
+  createdAt: DateTime! @createdAt
+}
+
+type Objective {
+  id: ID! @id
+  title: String
+  createdAt: DateTime! @createdAt
+  user: User!
 }

@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateObjective {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -11,9 +15,17 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
+  createObjective(data: ObjectiveCreateInput!): Objective!
+  updateObjective(data: ObjectiveUpdateInput!, where: ObjectiveWhereUniqueInput!): Objective
+  updateManyObjectives(data: ObjectiveUpdateManyMutationInput!, where: ObjectiveWhereInput): BatchPayload!
+  upsertObjective(where: ObjectiveWhereUniqueInput!, create: ObjectiveCreateInput!, update: ObjectiveUpdateInput!): Objective!
+  deleteObjective(where: ObjectiveWhereUniqueInput!): Objective
+  deleteManyObjectives(where: ObjectiveWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -32,6 +44,119 @@ interface Node {
   id: ID!
 }
 
+type Objective {
+  id: ID!
+  title: String
+  createdAt: DateTime!
+  user: User!
+}
+
+type ObjectiveConnection {
+  pageInfo: PageInfo!
+  edges: [ObjectiveEdge]!
+  aggregate: AggregateObjective!
+}
+
+input ObjectiveCreateInput {
+  id: ID
+  title: String
+  user: UserCreateOneInput!
+}
+
+type ObjectiveEdge {
+  node: Objective!
+  cursor: String!
+}
+
+enum ObjectiveOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ObjectivePreviousValues {
+  id: ID!
+  title: String
+  createdAt: DateTime!
+}
+
+type ObjectiveSubscriptionPayload {
+  mutation: MutationType!
+  node: Objective
+  updatedFields: [String!]
+  previousValues: ObjectivePreviousValues
+}
+
+input ObjectiveSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ObjectiveWhereInput
+  AND: [ObjectiveSubscriptionWhereInput!]
+  OR: [ObjectiveSubscriptionWhereInput!]
+  NOT: [ObjectiveSubscriptionWhereInput!]
+}
+
+input ObjectiveUpdateInput {
+  title: String
+  user: UserUpdateOneRequiredInput
+}
+
+input ObjectiveUpdateManyMutationInput {
+  title: String
+}
+
+input ObjectiveWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  user: UserWhereInput
+  AND: [ObjectiveWhereInput!]
+  OR: [ObjectiveWhereInput!]
+  NOT: [ObjectiveWhereInput!]
+}
+
+input ObjectiveWhereUniqueInput {
+  id: ID
+}
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -40,6 +165,9 @@ type PageInfo {
 }
 
 type Query {
+  objective(where: ObjectiveWhereUniqueInput!): Objective
+  objectives(where: ObjectiveWhereInput, orderBy: ObjectiveOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Objective]!
+  objectivesConnection(where: ObjectiveWhereInput, orderBy: ObjectiveOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ObjectiveConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -47,6 +175,7 @@ type Query {
 }
 
 type Subscription {
+  objective(where: ObjectiveSubscriptionWhereInput): ObjectiveSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -54,6 +183,7 @@ type User {
   id: ID!
   username: String!
   password: String!
+  createdAt: DateTime!
 }
 
 type UserConnection {
@@ -68,6 +198,11 @@ input UserCreateInput {
   password: String!
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 type UserEdge {
   node: User!
   cursor: String!
@@ -80,12 +215,15 @@ enum UserOrderByInput {
   username_DESC
   password_ASC
   password_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   username: String!
   password: String!
+  createdAt: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -106,6 +244,11 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  username: String
+  password: String
+}
+
 input UserUpdateInput {
   username: String
   password: String
@@ -114,6 +257,18 @@ input UserUpdateInput {
 input UserUpdateManyMutationInput {
   username: String
   password: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -159,6 +314,14 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
