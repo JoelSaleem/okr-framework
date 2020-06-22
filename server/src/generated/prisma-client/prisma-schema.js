@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateObjective {
+/* GraphQL */ `type AggregateKeyResult {
+  count: Int!
+}
+
+type AggregateObjective {
   count: Int!
 }
 
@@ -17,9 +21,387 @@ type BatchPayload {
 
 scalar DateTime
 
+type KeyResult {
+  id: ID!
+  title: String!
+  description: String
+  createdAt: DateTime!
+  user: User!
+  objective: Objective!
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+type KeyResultConnection {
+  pageInfo: PageInfo!
+  edges: [KeyResultEdge]!
+  aggregate: AggregateKeyResult!
+}
+
+input KeyResultCreateInput {
+  id: ID
+  title: String!
+  description: String
+  user: UserCreateOneInput!
+  objective: ObjectiveCreateOneWithoutKeyResultsInput!
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+input KeyResultCreateManyWithoutObjectiveInput {
+  create: [KeyResultCreateWithoutObjectiveInput!]
+  connect: [KeyResultWhereUniqueInput!]
+}
+
+input KeyResultCreateWithoutObjectiveInput {
+  id: ID
+  title: String!
+  description: String
+  user: UserCreateOneInput!
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+type KeyResultEdge {
+  node: KeyResult!
+  cursor: String!
+}
+
+enum KeyResultOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+  createdAt_ASC
+  createdAt_DESC
+  current_ASC
+  current_DESC
+  target_ASC
+  target_DESC
+  success_ASC
+  success_DESC
+  failure_ASC
+  failure_DESC
+  type_ASC
+  type_DESC
+}
+
+type KeyResultPreviousValues {
+  id: ID!
+  title: String!
+  description: String
+  createdAt: DateTime!
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+input KeyResultScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  current: Int
+  current_not: Int
+  current_in: [Int!]
+  current_not_in: [Int!]
+  current_lt: Int
+  current_lte: Int
+  current_gt: Int
+  current_gte: Int
+  target: Int
+  target_not: Int
+  target_in: [Int!]
+  target_not_in: [Int!]
+  target_lt: Int
+  target_lte: Int
+  target_gt: Int
+  target_gte: Int
+  success: Int
+  success_not: Int
+  success_in: [Int!]
+  success_not_in: [Int!]
+  success_lt: Int
+  success_lte: Int
+  success_gt: Int
+  success_gte: Int
+  failure: Int
+  failure_not: Int
+  failure_in: [Int!]
+  failure_not_in: [Int!]
+  failure_lt: Int
+  failure_lte: Int
+  failure_gt: Int
+  failure_gte: Int
+  type: KeyResultType
+  type_not: KeyResultType
+  type_in: [KeyResultType!]
+  type_not_in: [KeyResultType!]
+  AND: [KeyResultScalarWhereInput!]
+  OR: [KeyResultScalarWhereInput!]
+  NOT: [KeyResultScalarWhereInput!]
+}
+
+type KeyResultSubscriptionPayload {
+  mutation: MutationType!
+  node: KeyResult
+  updatedFields: [String!]
+  previousValues: KeyResultPreviousValues
+}
+
+input KeyResultSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: KeyResultWhereInput
+  AND: [KeyResultSubscriptionWhereInput!]
+  OR: [KeyResultSubscriptionWhereInput!]
+  NOT: [KeyResultSubscriptionWhereInput!]
+}
+
+enum KeyResultType {
+  Count
+  Percentage
+}
+
+input KeyResultUpdateInput {
+  title: String
+  description: String
+  user: UserUpdateOneRequiredInput
+  objective: ObjectiveUpdateOneRequiredWithoutKeyResultsInput
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+input KeyResultUpdateManyDataInput {
+  title: String
+  description: String
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+input KeyResultUpdateManyMutationInput {
+  title: String
+  description: String
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+input KeyResultUpdateManyWithoutObjectiveInput {
+  create: [KeyResultCreateWithoutObjectiveInput!]
+  delete: [KeyResultWhereUniqueInput!]
+  connect: [KeyResultWhereUniqueInput!]
+  set: [KeyResultWhereUniqueInput!]
+  disconnect: [KeyResultWhereUniqueInput!]
+  update: [KeyResultUpdateWithWhereUniqueWithoutObjectiveInput!]
+  upsert: [KeyResultUpsertWithWhereUniqueWithoutObjectiveInput!]
+  deleteMany: [KeyResultScalarWhereInput!]
+  updateMany: [KeyResultUpdateManyWithWhereNestedInput!]
+}
+
+input KeyResultUpdateManyWithWhereNestedInput {
+  where: KeyResultScalarWhereInput!
+  data: KeyResultUpdateManyDataInput!
+}
+
+input KeyResultUpdateWithoutObjectiveDataInput {
+  title: String
+  description: String
+  user: UserUpdateOneRequiredInput
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
+}
+
+input KeyResultUpdateWithWhereUniqueWithoutObjectiveInput {
+  where: KeyResultWhereUniqueInput!
+  data: KeyResultUpdateWithoutObjectiveDataInput!
+}
+
+input KeyResultUpsertWithWhereUniqueWithoutObjectiveInput {
+  where: KeyResultWhereUniqueInput!
+  update: KeyResultUpdateWithoutObjectiveDataInput!
+  create: KeyResultCreateWithoutObjectiveInput!
+}
+
+input KeyResultWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  user: UserWhereInput
+  objective: ObjectiveWhereInput
+  current: Int
+  current_not: Int
+  current_in: [Int!]
+  current_not_in: [Int!]
+  current_lt: Int
+  current_lte: Int
+  current_gt: Int
+  current_gte: Int
+  target: Int
+  target_not: Int
+  target_in: [Int!]
+  target_not_in: [Int!]
+  target_lt: Int
+  target_lte: Int
+  target_gt: Int
+  target_gte: Int
+  success: Int
+  success_not: Int
+  success_in: [Int!]
+  success_not_in: [Int!]
+  success_lt: Int
+  success_lte: Int
+  success_gt: Int
+  success_gte: Int
+  failure: Int
+  failure_not: Int
+  failure_in: [Int!]
+  failure_not_in: [Int!]
+  failure_lt: Int
+  failure_lte: Int
+  failure_gt: Int
+  failure_gte: Int
+  type: KeyResultType
+  type_not: KeyResultType
+  type_in: [KeyResultType!]
+  type_not_in: [KeyResultType!]
+  AND: [KeyResultWhereInput!]
+  OR: [KeyResultWhereInput!]
+  NOT: [KeyResultWhereInput!]
+}
+
+input KeyResultWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createKeyResult(data: KeyResultCreateInput!): KeyResult!
+  updateKeyResult(data: KeyResultUpdateInput!, where: KeyResultWhereUniqueInput!): KeyResult
+  updateManyKeyResults(data: KeyResultUpdateManyMutationInput!, where: KeyResultWhereInput): BatchPayload!
+  upsertKeyResult(where: KeyResultWhereUniqueInput!, create: KeyResultCreateInput!, update: KeyResultUpdateInput!): KeyResult!
+  deleteKeyResult(where: KeyResultWhereUniqueInput!): KeyResult
+  deleteManyKeyResults(where: KeyResultWhereInput): BatchPayload!
   createObjective(data: ObjectiveCreateInput!): Objective!
   updateObjective(data: ObjectiveUpdateInput!, where: ObjectiveWhereUniqueInput!): Objective
   updateManyObjectives(data: ObjectiveUpdateManyMutationInput!, where: ObjectiveWhereInput): BatchPayload!
@@ -46,9 +428,10 @@ interface Node {
 
 type Objective {
   id: ID!
-  title: String
+  title: String!
   createdAt: DateTime!
   user: User!
+  keyResults(where: KeyResultWhereInput, orderBy: KeyResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [KeyResult!]
 }
 
 type ObjectiveConnection {
@@ -59,7 +442,19 @@ type ObjectiveConnection {
 
 input ObjectiveCreateInput {
   id: ID
-  title: String
+  title: String!
+  user: UserCreateOneInput!
+  keyResults: KeyResultCreateManyWithoutObjectiveInput
+}
+
+input ObjectiveCreateOneWithoutKeyResultsInput {
+  create: ObjectiveCreateWithoutKeyResultsInput
+  connect: ObjectiveWhereUniqueInput
+}
+
+input ObjectiveCreateWithoutKeyResultsInput {
+  id: ID
+  title: String!
   user: UserCreateOneInput!
 }
 
@@ -79,7 +474,7 @@ enum ObjectiveOrderByInput {
 
 type ObjectivePreviousValues {
   id: ID!
-  title: String
+  title: String!
   createdAt: DateTime!
 }
 
@@ -104,10 +499,28 @@ input ObjectiveSubscriptionWhereInput {
 input ObjectiveUpdateInput {
   title: String
   user: UserUpdateOneRequiredInput
+  keyResults: KeyResultUpdateManyWithoutObjectiveInput
 }
 
 input ObjectiveUpdateManyMutationInput {
   title: String
+}
+
+input ObjectiveUpdateOneRequiredWithoutKeyResultsInput {
+  create: ObjectiveCreateWithoutKeyResultsInput
+  update: ObjectiveUpdateWithoutKeyResultsDataInput
+  upsert: ObjectiveUpsertWithoutKeyResultsInput
+  connect: ObjectiveWhereUniqueInput
+}
+
+input ObjectiveUpdateWithoutKeyResultsDataInput {
+  title: String
+  user: UserUpdateOneRequiredInput
+}
+
+input ObjectiveUpsertWithoutKeyResultsInput {
+  update: ObjectiveUpdateWithoutKeyResultsDataInput!
+  create: ObjectiveCreateWithoutKeyResultsInput!
 }
 
 input ObjectiveWhereInput {
@@ -148,6 +561,9 @@ input ObjectiveWhereInput {
   createdAt_gt: DateTime
   createdAt_gte: DateTime
   user: UserWhereInput
+  keyResults_every: KeyResultWhereInput
+  keyResults_some: KeyResultWhereInput
+  keyResults_none: KeyResultWhereInput
   AND: [ObjectiveWhereInput!]
   OR: [ObjectiveWhereInput!]
   NOT: [ObjectiveWhereInput!]
@@ -165,6 +581,9 @@ type PageInfo {
 }
 
 type Query {
+  keyResult(where: KeyResultWhereUniqueInput!): KeyResult
+  keyResults(where: KeyResultWhereInput, orderBy: KeyResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [KeyResult]!
+  keyResultsConnection(where: KeyResultWhereInput, orderBy: KeyResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): KeyResultConnection!
   objective(where: ObjectiveWhereUniqueInput!): Objective
   objectives(where: ObjectiveWhereInput, orderBy: ObjectiveOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Objective]!
   objectivesConnection(where: ObjectiveWhereInput, orderBy: ObjectiveOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ObjectiveConnection!
@@ -175,6 +594,7 @@ type Query {
 }
 
 type Subscription {
+  keyResult(where: KeyResultSubscriptionWhereInput): KeyResultSubscriptionPayload
   objective(where: ObjectiveSubscriptionWhereInput): ObjectiveSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

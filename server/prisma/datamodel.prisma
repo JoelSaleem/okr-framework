@@ -7,7 +7,27 @@ type User {
 
 type Objective {
   id: ID! @id
-  title: String
+  title: String!
   createdAt: DateTime! @createdAt
-  user: User!
+  user: User! @relation(fields: [userId], references: [id])
+  keyResults: [KeyResult!] @relation(fields: [keyResultId], references: [id])
+}
+
+enum KeyResultType {
+  Count
+  Percentage
+}
+
+type KeyResult {
+  id: ID! @id
+  title: String!
+  description: String
+  createdAt: DateTime! @createdAt
+  user: User! @relation(fields: [userId], references: [id])
+  objective: Objective! @relation(fields: [objectiveId], references: [id])
+  current: Int
+  target: Int
+  success: Int
+  failure: Int
+  type: KeyResultType
 }

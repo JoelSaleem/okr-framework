@@ -11,6 +11,14 @@ var models = [
   {
     name: "Objective",
     embedded: false
+  },
+  {
+    name: "KeyResultType",
+    embedded: false
+  },
+  {
+    name: "KeyResult",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
