@@ -1,13 +1,28 @@
-import { LoginForm } from "../src/components/LoginForm";
+import styled from "styled-components";
+import { Card } from "../components/Card";
+
+const Grid = styled.div`
+  height: 100%;
+  display: grid;
+  grid-template-columns: 10% 1fr 10%;
+  grid-template-rows: 10% 1fr 10%;
+`;
+
+const Heading = styled.h1`
+  grid-area: 1 / 2 / 2 / 3;
+`;
+
+const CentreGrid = styled.div`
+  grid-area: 2 / 2 / 3 / 3;
+`;
 
 export default () => {
   return (
-    <div
-      className="container bg-purple light-gray h-100 w-100"
-      style={{ justifyContent: "flex-start", paddingTop: "10%" }}
-    >
-      <h1 className="link b black hover-orange">Login</h1>
-      <LoginForm />
-    </div>
+    <Grid>
+      <Heading>Title</Heading>
+      <CentreGrid>
+        <Card>Hrl</Card>
+      </CentreGrid>
+    </Grid>
   );
 };
