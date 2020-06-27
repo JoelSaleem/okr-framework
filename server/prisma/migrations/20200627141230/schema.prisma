@@ -9,29 +9,29 @@ datasource postgres {
 // Schema, refer to its complete docs at https://pris.ly/d/prisma-schema.
 
 model Objective {
-  id          Int         @id @default(autoincrement())
-  title       String
-  description String?
-  createdAt   DateTime
-  user        User        @relation(fields: [userId], references: [id])
-  userId      Int
-  KeyResult   KeyResult[]
-}
-
-model KeyResult {
   id              Int         @id @default(autoincrement())
   title           String
   description     String?
   createdAt       DateTime
-  target          Int
-  current         Int
   user            User        @relation(fields: [userId], references: [id])
   userId          Int
-  parentObjective Objective?  @relation(fields: [parentObjId], references: [id])
-  parentResult    KeyResult?  @relation(fields: [parentKeyResId], references: [id])
-  parentObjId     Int?
-  parentKeyResId  Int?
-  KeyResult       KeyResult[] @relation("KeyResultToKeyResult")
+  keyResults      KeyResult[]
+  parentObjective Objective?  @relation(fields: [parentId], references: id)
+  parentId        Int?
+  Objective       Objective[] @relation("ObjectiveToObjective")
+}
+
+model KeyResult {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime
+  target      Int
+  current     Int
+  user        User       @relation(fields: [userId], references: [id])
+  userId      Int
+  objective   Objective? @relation(fields: [objectiveId], references: [id])
+  objectiveId Int?
 }
 
 model User {

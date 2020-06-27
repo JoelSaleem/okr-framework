@@ -33,8 +33,12 @@ type KeyResult {
 type Mutation {
   createKeyResult(description: String, objective: Int!, target: Int!, title: String!): KeyResult
   createObjective(description: String!, parentObjective: Int, title: String!): Objective!
+  deleteKeyResult(id: Int!): Boolean
+  deleteObjective(id: Int!): Boolean
   login(email: String, password: String): AuthPayload
   signup(email: String!, password: String!): AuthPayload
+  updateKeyResult(current: Int, description: String, id: Int!, target: Int, title: String): KeyResult
+  updateObjective(description: String, id: Int!, title: String): Objective!
 }
 
 type Objective {
@@ -49,6 +53,7 @@ type Objective {
 type Query {
   keyResult(id: Int): KeyResult!
   keyResults: [KeyResult!]!
+  objective(id: Int!): Objective
   objectives: [Objective!]!
   users: [User!]!
 }
@@ -58,5 +63,4 @@ type User {
   email: String
   id: Int
   objectives: [Objective!]
-  password: String
 }

@@ -20,7 +20,7 @@ schema.objectType({
               id: root.id,
             },
           })
-          .parentObjective(); 
+          .parentObjective();
       },
     }),
       t.field("user", {
@@ -63,6 +63,33 @@ schema.extendType({
         });
       },
     });
+    t.field("objective", {
+      type: "Objective",
+      nullable: true,
+      args: { id: schema.intArg({ required: true }) },
+      async resolve(_root, { id }, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        if (!id) {
+          throw new Error("Must provide id");
+        }
+
+        const obj = await ctx.db.objective.findOne({
+          where: {
+            id,
+          },
+        });
+
+        if (!obj || obj?.userId !== userId) {
+          throw new Error("Could not find objective");
+        }
+
+        return obj;
+      },
+    });
   },
 });
 
@@ -94,7 +121,7 @@ schema.extendType({
           },
         };
 
-        if (args.parentObjective) {
+        if (args.parentObjective != null) {
           data.parentObjective = {
             connect: {
               id: args.parentObjective,
@@ -103,6 +130,74 @@ schema.extendType({
         }
 
         return ctx.db.objective.create({ data });
+      },
+    });
+    t.field("updateObjective", {
+      type: "Objective",
+      args: {
+        id: schema.intArg({ required: true }),
+        title: schema.stringArg({ required: false }),
+        description: schema.stringArg({ required: false }),
+      },
+      nullable: false,
+      async resolve(_root, { id, title, description }, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        const obj = await ctx.db.objective.findOne({
+          where: {
+            id,
+          },
+        });
+
+        if (!obj || obj.userId !== userId) {
+          throw new Error("Could not find objective");
+        }
+
+        const data: any = {};
+        if (title) {
+          data.title = title;
+        }
+        if (description) {
+          data.description = description;
+        }
+
+        return ctx.db.objective.update({
+          where: {
+            id,
+          },
+          data,
+        });
+      },
+    });
+    t.field("deleteObjective", {
+      type: "Boolean",
+      args: { id: schema.intArg({ required: true }) },
+      async resolve(root, { id }, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        const obj = await ctx.db.objective.findOne({
+          where: {
+            id,
+          },
+        });
+
+        if (!obj || obj.userId !== userId) {
+          throw new Error("Could not find objective");
+        }
+
+        const deleted = await ctx.db.objective.delete({
+          where: {
+            id,
+          },
+        });
+
+        return !!deleted;
       },
     });
   },

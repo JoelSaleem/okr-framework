@@ -1,5 +1,6 @@
 import { schema } from "nexus";
 import { getUserId } from "../utils";
+import { decodeBase64 } from "bcryptjs";
 
 schema.objectType({
   name: "KeyResult",
@@ -80,6 +81,10 @@ schema.extendType({
           },
         });
 
+        if (!kr || !kr?.userId) {
+          throw new Error("KR does not exist");
+        }
+
         if (kr?.userId !== userId) {
           throw new Error("Not authorized");
         }
@@ -126,6 +131,81 @@ schema.extendType({
             },
           },
         });
+      },
+    });
+    t.field("updateKeyResult", {
+      type: "KeyResult",
+      args: {
+        id: schema.intArg({ required: true }),
+        title: schema.stringArg({ required: false }),
+        description: schema.stringArg({ required: false }),
+        target: schema.intArg({ required: false }),
+        current: schema.intArg({ required: false }),
+      },
+      async resolve(root, args, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        const kr = await ctx.db.keyResult.findOne({
+          where: {
+            id: args.id,
+          },
+        });
+
+        if (!kr || kr?.userId !== userId) {
+          throw new Error("Could not find KR");
+        }
+
+        const data: any = {};
+        // Todo: use a loop, but typing is difficult here
+        if (args.title != null) {
+          data.title = args.title;
+        }
+        if (args.current != null) {
+          data.current = args.current;
+        }
+        if (args.description != null) {
+          data.description = args.description;
+        }
+        if (args.target != null) {
+          data.target = args.target;
+        }
+
+        return ctx.db.keyResult.update({
+          where: {
+            id: args.id,
+          },
+          data,
+        });
+      },
+    });
+    t.field("deleteKeyResult", {
+      type: "Boolean",
+      args: { id: schema.intArg({ required: true }) },
+      async resolve(root, { id }, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        const kr = await ctx.db.keyResult.findOne({
+          where: {
+            id,
+          },
+        });
+
+        if (!kr || kr.userId !== userId) {
+          throw new Error("Could not find kr");
+        }
+        const deleted = await ctx.db.keyResult.delete({
+          where: {
+            id,
+          },
+        });
+
+        return !!deleted;
       },
     });
   },
