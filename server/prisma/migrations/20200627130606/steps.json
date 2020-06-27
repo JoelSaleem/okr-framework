@@ -1,0 +1,180 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "KeyResult",
+      "field": "objective",
+      "type": "Objective",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "KeyResult",
+          "field": "objective"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "KeyResult",
+          "field": "objective"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[objectiveId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "KeyResult",
+          "field": "objective"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "KeyResult",
+      "field": "objectiveId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "KeyResult",
+      "field": "parentResult"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "KeyResult",
+      "field": "KeyResult"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "KeyResult",
+      "field": "parentObjective"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "KeyResult",
+      "field": "parentObjId"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "KeyResult",
+      "field": "parentKeyResId"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Objective",
+      "field": "keyResults",
+      "type": "KeyResult",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Objective",
+      "field": "parentObj",
+      "type": "Objective",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Objective",
+          "field": "parentObj"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Objective",
+          "field": "parentObj"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[parentId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Objective",
+          "field": "parentObj"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "id"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Objective",
+      "field": "parentId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Objective",
+      "field": "Objective",
+      "type": "Objective",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Objective",
+          "field": "Objective"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Objective",
+          "field": "Objective"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"ObjectiveToObjective\""
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Objective",
+      "field": "KeyResult"
+    }
+  ]
+}

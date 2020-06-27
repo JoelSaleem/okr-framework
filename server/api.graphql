@@ -19,20 +19,36 @@ The `JSON` scalar type represents JSON objects as specified by [ECMA-404](http:/
 """
 scalar Json
 
+type KeyResult {
+  createdAt: DateTime
+  current: Int
+  description: String
+  id: Int
+  objective: Objective
+  target: Int
+  title: String
+  user: User
+}
+
 type Mutation {
-  createObjective(description: String!, title: String!): Objective!
+  createKeyResult(description: String, objective: Int!, target: Int!, title: String!): KeyResult
+  createObjective(description: String!, parentObjective: Int, title: String!): Objective!
   login(email: String, password: String): AuthPayload
   signup(email: String!, password: String!): AuthPayload
 }
 
 type Objective {
+  createdAt: DateTime
   description: String
   id: Int
+  parentObjective: Objective
   title: String
   user: User
 }
 
 type Query {
+  keyResult(id: Int): KeyResult!
+  keyResults: [KeyResult!]!
   objectives: [Objective!]!
   users: [User!]!
 }

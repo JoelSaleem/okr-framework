@@ -1,6 +1,5 @@
 import { schema } from "nexus";
 import { getUserId } from "../utils";
-import { decodeBase64 } from "bcryptjs";
 
 schema.objectType({
   name: "Objective",
@@ -8,21 +7,37 @@ schema.objectType({
     t.int("id");
     t.string("title");
     t.string("description");
-    t.field("user", {
-      type: "User",
+    t.date("createdAt");
+    t.field("parentObjective", {
+      type: "Objective",
       resolve(root, args, ctx) {
         if (!root.id) {
           return null;
         }
-        return ctx.db.objecive
+        return ctx.db.objective
           .findOne({
             where: {
               id: root.id,
             },
           })
-          .user();
+          .parentObjective(); 
       },
-    });
+    }),
+      t.field("user", {
+        type: "User",
+        resolve(root, args, ctx) {
+          if (!root.id) {
+            return null;
+          }
+          return ctx.db.objective
+            .findOne({
+              where: {
+                id: root.id,
+              },
+            })
+            .user();
+        },
+      });
   },
 });
 
@@ -39,22 +54,13 @@ schema.extendType({
           throw new Error("Not authorized");
         }
 
-        const user = await ctx.db.user.findOne({
-          where: {
-            id: userId,
-          },
-        });
-
-        const obj = await ctx.db.objecive.findMany({
+        return ctx.db.objective.findMany({
           where: {
             user: {
               id: userId,
             },
           },
         });
-
-        console.log(obj);
-        return obj;
       },
     });
   },
@@ -68,6 +74,7 @@ schema.extendType({
       args: {
         title: schema.stringArg({ required: true }),
         description: schema.stringArg({ required: true }),
+        parentObjective: schema.intArg({ required: false }),
       },
       nullable: false,
       resolve(_root, args, ctx) {
@@ -76,18 +83,26 @@ schema.extendType({
           throw new Error("Not authorized");
         }
 
-        return ctx.db.objecive.create({
-          data: {
-            createdAt: new Date(),
-            description: args.description,
-            title: args.title,
-            user: {
-              connect: {
-                id: userId,
-              },
+        const data: any = {
+          createdAt: new Date(),
+          description: args.description,
+          title: args.title,
+          user: {
+            connect: {
+              id: userId,
             },
           },
-        });
+        };
+
+        if (args.parentObjective) {
+          data.parentObjective = {
+            connect: {
+              id: args.parentObjective,
+            },
+          };
+        }
+
+        return ctx.db.objective.create({ data });
       },
     });
   },
