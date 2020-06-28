@@ -13,7 +13,7 @@ const DarkTheme: Theme = {
   BackgroundAccent: "#9C27B0",
   CardColour: "#CE93D8",
   TextColour: "white",
-  ButtonColour: "white",
+  ButtonColour: "#E1BEE7",
 };
 
 export const appThemes = [DarkTheme];
