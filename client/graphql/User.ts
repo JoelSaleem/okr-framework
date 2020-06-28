@@ -10,6 +10,7 @@ schema.objectType({
   definition(t) {
     t.int("id");
     t.string("email");
+    t.string("createdAt");
     t.list.field("objectives", {
       type: "Objective",
       resolve(root, args, ctx) {
@@ -46,7 +47,11 @@ schema.extendType({
           throw new Error("Not authorized");
         }
 
-        return ctx.db.user.findMany();
+        return ctx.db.user.findMany({
+          where: {
+            id: userId,
+          },
+        });
       },
     });
   },
@@ -77,7 +82,7 @@ schema.extendType({
           data: {
             email: args.email,
             password: hashedPassword,
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
           },
         });
 

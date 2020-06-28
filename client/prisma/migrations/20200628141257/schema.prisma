@@ -1,6 +1,6 @@
 datasource postgres {
   provider = "postgres"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 // This "Example" model has been generated for you by Nexus.
@@ -12,7 +12,7 @@ model Objective {
   id              Int         @id @default(autoincrement())
   title           String
   description     String?
-  createdAt       String
+  createdAt       Int
   user            User        @relation(fields: [userId], references: [id])
   userId          Int
   keyResults      KeyResult[]
@@ -25,7 +25,7 @@ model KeyResult {
   id          Int        @id @default(autoincrement())
   title       String
   description String?
-  createdAt   String
+  createdAt   Int
   target      Int
   current     Int
   user        User       @relation(fields: [userId], references: [id])
@@ -39,7 +39,7 @@ model User {
   email      String      @unique
   password   String
   objectives Objective[]
-  createdAt  String
+  createdAt  Int
   KeyResult  KeyResult[]
 }
 

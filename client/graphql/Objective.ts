@@ -7,7 +7,7 @@ schema.objectType({
     t.int("id");
     t.string("title");
     t.string("description");
-    // t.date("createdAt");
+    t.string("createdAt");
     t.field("parentObjective", {
       type: "Objective",
       resolve(root, args, ctx) {
@@ -111,7 +111,7 @@ schema.extendType({
         }
 
         const data: any = {
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
           description: args.description,
           title: args.title,
           user: {

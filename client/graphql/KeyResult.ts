@@ -10,7 +10,7 @@ schema.objectType({
     t.string("description");
     t.int("target");
     t.int("current");
-    // t.date("createdAt");
+    t.string("createdAt");
     t.field("user", {
       type: "User",
       resolve(root, args, ctx) {
@@ -116,7 +116,7 @@ schema.extendType({
           data: {
             title: args.title,
             description: args.description,
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
             current: 0,
             target: args.target,
             objective: {
