@@ -6,6 +6,7 @@ export type Theme = {
   CardColour: string;
   ButtonColour: string;
   TextColour: string;
+  ButtonSecondary;
 };
 
 const DarkTheme: Theme = {
@@ -14,6 +15,7 @@ const DarkTheme: Theme = {
   CardColour: "#CE93D8",
   TextColour: "white",
   ButtonColour: "#E1BEE7",
+  ButtonSecondary: "#a358b1",
 };
 
 export const appThemes = [DarkTheme];

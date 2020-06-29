@@ -17,17 +17,19 @@ interface LabelInputProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   label: string;
   value: string;
+  type?: string;
 }
 
 export const LabelInput: React.FC<LabelInputProps> = ({
   label,
   onChange,
   value,
+  type,
 }) => {
   return (
     <Wrapper>
       <LabelWrapper>{label}</LabelWrapper>
-      <Input onChange={onChange} value={value} />
+      <Input type={type} onChange={onChange} value={value} />
     </Wrapper>
   );
 };

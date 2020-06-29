@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 
 import { LabelInput } from "../Layout/LabelInput";
 import { Button } from "../Layout/Button";
-import { LOGIN } from "./LoginMutations";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../../pages/_app";
 import { DocumentNode } from "graphql";
 
@@ -19,7 +19,7 @@ const Container = styled.div`
 const CentreWrapper = styled.div`
   grid-area: 2 / 2 / 3 / 3;
   display: grid;
-  grid-template-rows: 10% repeat(3, 1fr) 10%;
+  grid-template-rows: 5% repeat(4, 1fr) 5%;
 `;
 
 const EmailWrapper = styled.div`
@@ -34,19 +34,28 @@ const SubmitWrapper = styled.div`
   grid-area: 4 / 1 / 5 / 2;
 `;
 
+const SwitchPageWrapper = styled.div`
+  grid-area: 5 / 1 / 6 / 2;
+`;
+
 interface LoginFormProps {
   submitMutation: DocumentNode;
   buttonText: string;
+  routeButtonText: string;
+  routeButtonQuery: { page: string };
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({
   buttonText,
   submitMutation,
+  routeButtonQuery,
+  routeButtonText,
 }) => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [onSubmit, { data, loading, error }] = useMutation(submitMutation, {
+  const [onSubmit, { loading, error }] = useMutation(submitMutation, {
     variables: {
       email,
       password,
@@ -57,6 +66,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     onSubmit().then(({ data }) => {
       const token = data?.login?.token;
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+      router.push({
+        pathname: "/",
+      });
     });
   };
 
@@ -72,6 +84,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         </EmailWrapper>
         <PasswordWrapper>
           <LabelInput
+            type="password"
             label="Password:"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
@@ -79,11 +92,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         </PasswordWrapper>
         <SubmitWrapper>
           {loading ? (
-            "Loding..."
+            "Loading..."
           ) : (
             <Button onClick={handleSubmit}>{buttonText}</Button>
           )}
         </SubmitWrapper>
+        <SwitchPageWrapper>
+          <Button
+            onClick={() => {
+              router.push({
+                pathname: "/login",
+                query: routeButtonQuery,
+              });
+            }}
+            secondary
+          >
+            {routeButtonText}
+          </Button>
+        </SwitchPageWrapper>
       </CentreWrapper>
     </Container>
   );

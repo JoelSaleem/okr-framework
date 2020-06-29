@@ -1,10 +1,16 @@
 import styled from "styled-components";
 import { Theme } from "../../themes";
 
-export const Button = styled.a`
+import { ThemedStyledFunction } from "styled-components";
+interface ButtonProps {
+  secondary?: boolean;
+  theme?: Theme;
+}
+
+export const Button = styled.a<ButtonProps>`
   display: block;
-  background: ${(props: { theme: Theme }) => {
-    return props.theme.ButtonColour;
+  background: ${({ secondary, theme }) => {
+    return secondary ? theme.ButtonSecondary : theme.ButtonColour;
   }};
   padding: 8px 16px;
   border-radius: 4px;

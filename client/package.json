@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
+    "@prisma/cli": "^2.1.3",
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/styled-components": "^5.1.0",
@@ -27,8 +28,7 @@
     "nexus-plugin-prisma": "^0.10.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "styled-components": "^5.1.1",
-    "@prisma/cli": "^2.1.3"
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "@types/node": "^14.0.14",
