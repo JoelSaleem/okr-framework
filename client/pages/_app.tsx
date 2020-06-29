@@ -1,15 +1,20 @@
-import ApolloClient, { gql, HttpLink } from "apollo-boost";
+import ApolloClient, { Operation } from "apollo-boost";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { Theme, appThemes, useTheme } from "../themes";
 import { ApolloProvider } from "@apollo/react-hooks";
 
-const link = new HttpLink({
-  uri: "http://localhost:3000/api/graphql",
-  credentials: "include",
-});
+export const LOCAL_STORAGE_TOKEN_KEY = "OKR_LS_TOKEN";
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/api/graphql",
+  request: (operation: Operation) => {
+    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+  },
 });
 
 const GlobalStyle = createGlobalStyle`

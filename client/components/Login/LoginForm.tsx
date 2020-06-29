@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { LabelInput } from "../Layout/LabelInput";
 import { Button } from "../Layout/Button";
 import { LOGIN } from "./LoginMutations";
+import { LOCAL_STORAGE_TOKEN_KEY } from "../../pages/_app";
 
 const Container = styled.div`
   min-width: 330px;
@@ -36,14 +37,19 @@ export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login, { data, error }] = useMutation(LOGIN, {
+  const [login, { data, loading, error }] = useMutation(LOGIN, {
     variables: {
       email,
       password,
     },
   });
 
-  console.log("%c data ", "background: purple; color: white", data, error);
+  const onLoginClicked = () => {
+    login().then(({ data }) => {
+      const token = data?.login?.token;
+      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+    });
+  };
 
   return (
     <Container>
@@ -63,7 +69,11 @@ export const LoginForm = () => {
           />
         </PasswordWrapper>
         <SubmitWrapper>
-          <Button onClick={() => login()}>Login</Button>
+          {loading ? (
+            "Loding..."
+          ) : (
+            <Button onClick={onLoginClicked}>Login</Button>
+          )}
         </SubmitWrapper>
       </CentreWrapper>
     </Container>
