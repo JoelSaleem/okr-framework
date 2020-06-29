@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Card } from "../components/Layout/Card";
 import { LoginForm } from "../components/Login/LoginForm";
+import { LOGIN } from "../components/Login/LoginMutations";
 
 const Grid = styled.div`
   height: 100%;
@@ -24,7 +25,7 @@ export default () => {
       <Heading>OKR</Heading>
       <CentreGrid>
         <Card>
-          <LoginForm />
+          <LoginForm buttonText="Login" submitMutation={LOGIN} />
         </Card>
       </CentreGrid>
     </Grid>

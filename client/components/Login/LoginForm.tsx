@@ -6,6 +6,7 @@ import { LabelInput } from "../Layout/LabelInput";
 import { Button } from "../Layout/Button";
 import { LOGIN } from "./LoginMutations";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../../pages/_app";
+import { DocumentNode } from "graphql";
 
 const Container = styled.div`
   min-width: 330px;
@@ -33,19 +34,27 @@ const SubmitWrapper = styled.div`
   grid-area: 4 / 1 / 5 / 2;
 `;
 
-export const LoginForm = () => {
+interface LoginFormProps {
+  submitMutation: DocumentNode;
+  buttonText: string;
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({
+  buttonText,
+  submitMutation,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login, { data, loading, error }] = useMutation(LOGIN, {
+  const [onSubmit, { data, loading, error }] = useMutation(submitMutation, {
     variables: {
       email,
       password,
     },
   });
 
-  const onLoginClicked = () => {
-    login().then(({ data }) => {
+  const handleSubmit = () => {
+    onSubmit().then(({ data }) => {
       const token = data?.login?.token;
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
     });
@@ -72,7 +81,7 @@ export const LoginForm = () => {
           {loading ? (
             "Loding..."
           ) : (
-            <Button onClick={onLoginClicked}>Login</Button>
+            <Button onClick={handleSubmit}>{buttonText}</Button>
           )}
         </SubmitWrapper>
       </CentreWrapper>
