@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -7,6 +8,7 @@ import { LabelInput } from "../Layout/LabelInput";
 import { Button } from "../Layout/Button";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../../pages/_app";
 import { DocumentNode } from "graphql";
+import { withAuthCtx, AuthContext } from "../../state/authContext";
 
 const Container = styled.div`
   min-width: 330px;
@@ -45,72 +47,78 @@ interface LoginFormProps {
   routeButtonQuery: { page: string };
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({
-  buttonText,
-  submitMutation,
-  routeButtonQuery,
-  routeButtonText,
-}) => {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export const LoginForm: React.FC<LoginFormProps> = withAuthCtx<T>(
+  ({
+    buttonText,
+    submitMutation,
+    routeButtonQuery,
+    routeButtonText,
+  }: LoginFormProps) => {
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  const [onSubmit, { loading, error }] = useMutation(submitMutation, {
-    variables: {
-      email,
-      password,
-    },
-  });
+    const { setEmail: setEmailCtx } = useContext(AuthContext);
 
-  const handleSubmit = () => {
-    onSubmit().then(({ data }) => {
-      const token = data?.login?.token;
-      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
-      router.push({
-        pathname: "/",
-      });
+    const [onSubmit, { loading, error }] = useMutation(submitMutation, {
+      variables: {
+        email,
+        password,
+      },
     });
-  };
 
-  return (
-    <Container>
-      <CentreWrapper>
-        <EmailWrapper>
-          <LabelInput
-            label="Email:"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-        </EmailWrapper>
-        <PasswordWrapper>
-          <LabelInput
-            type="password"
-            label="Password:"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
-        </PasswordWrapper>
-        <SubmitWrapper>
-          {loading ? (
-            "Loading..."
-          ) : (
-            <Button onClick={handleSubmit}>{buttonText}</Button>
-          )}
-        </SubmitWrapper>
-        <SwitchPageWrapper>
-          <Button
-            onClick={() => {
-              router.push({
-                pathname: "/login",
-                query: routeButtonQuery,
-              });
-            }}
-            secondary
-          >
-            {routeButtonText}
-          </Button>
-        </SwitchPageWrapper>
-      </CentreWrapper>
-    </Container>
-  );
-};
+    const handleSubmit = () => {
+      onSubmit().then(async ({ data }) => {
+        const token = data?.login?.token;
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+        setEmailCtx(data?.login?.user?.email);
+
+        router.push({
+          pathname: "/",
+        });
+      });
+    };
+
+    return (
+      <Container>
+        <CentreWrapper>
+          <EmailWrapper>
+            <LabelInput
+              label="Email:"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+          </EmailWrapper>
+          <PasswordWrapper>
+            <LabelInput
+              type="password"
+              label="Password:"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+          </PasswordWrapper>
+          <SubmitWrapper>
+            {loading ? (
+              "Loading..."
+            ) : (
+              <Button onClick={handleSubmit}>{buttonText}</Button>
+            )}
+          </SubmitWrapper>
+          <SwitchPageWrapper>
+            <Button
+              onClick={() => {
+                router.push({
+                  pathname: "/login",
+                  query: routeButtonQuery,
+                });
+              }}
+              secondary
+            >
+              {routeButtonText}
+            </Button>
+          </SwitchPageWrapper>
+        </CentreWrapper>
+      </Container>
+    );
+  }
+);
