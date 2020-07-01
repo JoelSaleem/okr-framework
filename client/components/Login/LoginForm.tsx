@@ -47,7 +47,7 @@ interface LoginFormProps {
   routeButtonQuery: { page: string };
 }
 
-export const LoginForm: React.FC<LoginFormProps> = withAuthCtx<T>(
+export const LoginForm: React.FC<LoginFormProps> = withAuthCtx<LoginFormProps>(
   ({
     buttonText,
     submitMutation,
