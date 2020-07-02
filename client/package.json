@@ -28,6 +28,7 @@
     "nexus-plugin-prisma": "^0.10.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-use": "^15.3.2",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {

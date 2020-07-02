@@ -69,6 +69,9 @@ export const LoginForm: React.FC<LoginFormProps> = withAuthCtx<LoginFormProps>(
 
     const handleSubmit = () => {
       onSubmit().then(async ({ data }) => {
+        if (typeof window === "undefined") {
+          return;
+        }
         const token = data?.login?.token;
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
         setEmailCtx(data?.login?.user?.email);
