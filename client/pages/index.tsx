@@ -84,18 +84,12 @@ export default () => {
     setIsSmallScreen(width < 500);
   }, [width]);
 
-  console.log(
-    "%c is small screen ",
-    "background: purple; color: white",
-    isSmallScreen
-  );
-
   const renderObjectives = useCallback(() => {
     const Wrapper = isSmallScreen ? SmallObjectiveSpacing : ObjectiveSpacing;
     return (
       <Wrapper>
         <Card>
-          <ObjectiveDisplay />
+          <ObjectiveDisplay isSmallScreen={isSmallScreen} />
         </Card>
       </Wrapper>
     );

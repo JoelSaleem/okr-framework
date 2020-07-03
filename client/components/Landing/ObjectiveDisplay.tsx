@@ -24,25 +24,48 @@ const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   text-align: start;
+  padding: 12px;
+  height: 70px;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  cursor: pointer;
 `;
 
-export const ObjectiveDisplay = () => {
+const ListTitle = styled.div`
+  font-weight: 500;
+`;
+const List = styled.div`
+  overflow: auto;
+  max-height: ${({ isSmallScreen }: { isSmallScreen: boolean }) => {
+    return isSmallScreen ? "20vh" : "30vh";
+  }};
+`;
+
+interface ObjectiveDisplayProps {
+  isSmallScreen: boolean;
+}
+
+export const ObjectiveDisplay: React.FC<ObjectiveDisplayProps> = ({
+  isSmallScreen,
+}) => {
   const { data } = useQuery(OBJECTIVES);
   const objectives: Objective[] = data?.objectives ?? [];
   return (
     <Container>
       <h3>Objectives</h3>
-      <div>
+      <List isSmallScreen={isSmallScreen}>
         {objectives.map(({ createdAt, description, title, id }) => {
           return (
             <ListContainer key={id}>
-              <span>title: {title}</span>
-              <span>description: {description}</span>
-              <span>createdAt: {new Date(createdAt).toString()}</span>
+              <ListTitle>Title:</ListTitle> <span>{title}</span>
+              <ListTitle>Description:</ListTitle> <span>{description}</span>
+              <ListTitle>Created At:</ListTitle>
+              <span>{new Date(createdAt).toString()}</span>
             </ListContainer>
           );
         })}
-      </div>
+      </List>
     </Container>
   );
 };
