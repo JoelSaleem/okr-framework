@@ -1,4 +1,3 @@
-import Head from "next/head";
 import styled from "styled-components";
 import { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import { useRouter } from "next/router";
@@ -8,6 +7,7 @@ import { LOCAL_STORAGE_TOKEN_KEY } from "./_app";
 import { Card } from "../components/Layout/Card";
 
 import { ObjectiveDisplay } from "../components/Landing/ObjectiveDisplay";
+import { KeyResultDisplay } from "../components/Landing/KeyResultDisplay";
 
 interface hasSmallScreen {
   isSmallScreen: boolean;
@@ -99,7 +99,9 @@ export default () => {
     const Wrapper = isSmallScreen ? SmallKeyResultSpacing : KeyResultSpacing;
     return (
       <Wrapper>
-        <Card>Key Res</Card>
+        <Card>
+          <KeyResultDisplay isSmallScreen={isSmallScreen} />
+        </Card>
       </Wrapper>
     );
   }, [isSmallScreen]);
@@ -118,7 +120,7 @@ export default () => {
 
   return (
     <Container>
-      <H>Welcome?</H>
+      <H>Welcome</H>
       {renderObjectives()}
       {renderKeyResults()}
       {renderStats()}

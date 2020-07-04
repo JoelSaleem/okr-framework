@@ -21,3 +21,35 @@ export const OBJECTIVE = gql`
     }
   }
 `;
+
+export const KEY_RESULTS = gql`
+  {
+    keyResults {
+      id
+      title
+      description
+      target
+      current
+      createdAt
+      objective {
+        id
+      }
+    }
+  }
+`;
+
+export const KEY_RESULT = gql`
+  query KeyResult($id: Int!) {
+    keyResults(id: $id) {
+      id
+      title
+      description
+      target
+      current
+      createdAt
+      objective {
+        id
+      }
+    }
+  }
+`;

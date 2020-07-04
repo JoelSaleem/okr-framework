@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { OBJECTIVES } from "../../Queries";
 import { Objective } from "../../types";
-import { ListItem } from "../ListItem";
+import { ObjectiveListItem } from "../List/ObjectiveListItem";
 import { useRouter } from "next/router";
 
 const ListWrapper = styled.div`
@@ -25,7 +25,7 @@ export const ObjectivesList = () => {
     <ListWrapper>
       {objectives.map(({ id, title, description, createdAt }) => {
         return (
-          <ListItem
+          <ObjectiveListItem
             withHover
             onClick={() => selectObjective(id)}
             key={id}

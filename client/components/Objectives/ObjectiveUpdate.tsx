@@ -1,25 +1,12 @@
 import { useRouter } from "next/router";
 import { ObjectiveForm } from "./ObjectiveForm";
 
-import styled from "styled-components";
 import { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { LabelInput } from "../Layout/LabelInput";
 import { useState } from "react";
-import { Button } from "../Layout/Button";
 
 import { OBJECTIVE } from "../../Queries";
 import { UPDATE_OBJECTIVE } from "../../Mutations";
-
-const FormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-height: 30%;
-  height: 100%;
-  justify-content: space-evenly;
-  padding: 12px;
-  overflow: auto;
-`;
 
 interface ObjectiveUpdate {
   id: number;

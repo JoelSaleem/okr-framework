@@ -1,37 +1,11 @@
-import styled from "styled-components";
 import { useRouter } from "next/router";
 import { Objective } from "../../types";
 import { useQuery } from "@apollo/react-hooks";
 import { OBJECTIVES } from "../../Queries";
-import { ListItem } from "../ListItem";
 
-const Container = styled.div`
-  text-align: center;
-  padding: 4px;
-  height: 100%;
-  cursor: pointer;
-`;
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: start;
-  padding: 12px;
-  height: 70px;
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-`;
-
-const ListTitle = styled.div`
-  font-weight: 500;
-`;
-const List = styled.div`
-  overflow: auto;
-  max-height: ${({ isSmallScreen }: { isSmallScreen: boolean }) => {
-    return isSmallScreen ? "20vh" : "30vh";
-  }};
-`;
+import { ObjectiveListItem } from "../List/ObjectiveListItem";
+import { ResponsiveListWrapper } from "../List/ResponsiveListWrapper";
+import { CardContainer } from "../List/CardContainer";
 
 interface ObjectiveDisplayProps {
   isSmallScreen: boolean;
@@ -52,12 +26,12 @@ export const ObjectiveDisplay: React.FC<ObjectiveDisplayProps> = ({
   };
 
   return (
-    <Container onClick={onClick}>
+    <CardContainer onClick={onClick}>
       <h3>Objectives</h3>
-      <List isSmallScreen={isSmallScreen}>
+      <ResponsiveListWrapper isSmallScreen={isSmallScreen}>
         {objectives.map(({ createdAt, description, title, id }) => {
           return (
-            <ListItem
+            <ObjectiveListItem
               id={id}
               createdAt={createdAt}
               description={description}
@@ -66,7 +40,7 @@ export const ObjectiveDisplay: React.FC<ObjectiveDisplayProps> = ({
             />
           );
         })}
-      </List>
-    </Container>
+      </ResponsiveListWrapper>
+    </CardContainer>
   );
 };
