@@ -2,11 +2,13 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Button } from "../components/Layout/Button";
 import { MainWrapper } from "../components/Layout/MainWrapper";
-import { ObjectivesList } from "../components/Objectives/ObjectivesList";
+import { KeyResultList } from "../components/KeyResults/KeyResultList";
 import { LOCAL_STORAGE_TOKEN_KEY } from "./_app";
 
 export default () => {
   const router = useRouter();
+
+  const parent = router.query.parent;
 
   // Redirect if not logged in
   useEffect(() => {
@@ -22,10 +24,12 @@ export default () => {
   });
   return (
     <MainWrapper heading="Objectives">
-      <ObjectivesList />
+      <KeyResultList
+        parent={(parent as string) ? parseInt(parent as string) : undefined}
+      />
       <Button
         onClick={() => {
-          router.push("/objective");
+          router.push("/keyresult");
         }}
       >
         Create

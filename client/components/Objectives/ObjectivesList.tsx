@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
-import { OBJECTIVES } from "../../Queries";
+import { OBJECTIVES, OBJECTIVES_OF_PARIENT } from "../../Queries";
 import { Objective } from "../../types";
 import { ObjectiveListItem } from "../List/ObjectiveListItem";
 import { useRouter } from "next/router";
@@ -11,10 +11,22 @@ const ListWrapper = styled.div`
 `;
 
 export const ObjectivesList = () => {
-  const { data } = useQuery(OBJECTIVES);
   const router = useRouter();
+  const parent = router.query?.parent;
+  const { data: allObjectives } = useQuery(OBJECTIVES);
+  const { data: childObjectives } = useQuery(OBJECTIVES_OF_PARIENT, {
+    variables: {
+      parent: parseInt(parent as string),
+    },
+  });
 
-  const objectives: Objective[] = data?.objectives ?? [];
+  let objectives: Objective[] = [];
+  if (parent) {
+    objectives = childObjectives?.objectivesOfParent ?? [];
+  } else {
+    objectives = allObjectives?.objectives ?? [];
+  }
+
   const selectObjective = (id: number) =>
     router.push({
       pathname: "/objective",

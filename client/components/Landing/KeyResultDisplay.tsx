@@ -25,13 +25,9 @@ export const KeyResultDisplay: React.FC<KeyResultDisplayProps> = ({
         {keyResults.map(({ id, title, target, current }) => {
           return (
             <KeyResultListItem
-              withHover
               onClick={() => {
                 router.push({
-                  pathname: "/keyresult",
-                  query: {
-                    id,
-                  },
+                  pathname: "/keyresults",
                 });
               }}
               id={id}

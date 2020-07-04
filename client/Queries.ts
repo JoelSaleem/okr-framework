@@ -22,6 +22,20 @@ export const OBJECTIVE = gql`
   }
 `;
 
+export const OBJECTIVES_OF_PARIENT = gql`
+  query ObjectivesOfParent($parent: Int!) {
+    objectivesOfParent(parent: $parent) {
+      id
+      title
+      description
+      createdAt
+      parentObjective {
+        id
+      }
+    }
+  }
+`;
+
 export const KEY_RESULTS = gql`
   {
     keyResults {
@@ -41,6 +55,22 @@ export const KEY_RESULTS = gql`
 export const KEY_RESULT = gql`
   query KeyResult($id: Int!) {
     keyResult(id: $id) {
+      id
+      title
+      description
+      target
+      current
+      createdAt
+      objective {
+        id
+      }
+    }
+  }
+`;
+
+export const KEY_RESULT_OF_PARENT = gql`
+  query KR($parent: Int!) {
+    keyResultsOfObjective(parent: $parent) {
       id
       title
       description
