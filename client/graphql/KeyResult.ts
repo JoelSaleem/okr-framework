@@ -92,6 +92,34 @@ schema.extendType({
         return kr;
       },
     });
+    t.list.field("keyResultOfObjective", {
+      type: "KeyResult",
+      nullable: false,
+      args: { parent: schema.intArg() },
+      async resolve(root, { parent }, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        if (!parent) {
+          throw new Error("must provide an objective");
+        }
+
+        const krs = await ctx.db.keyResult.findMany({
+          where: {
+            user: {
+              id: userId,
+            },
+            objective: {
+              id: parent,
+            },
+          },
+        });
+
+        return krs;
+      },
+    });
   },
 });
 

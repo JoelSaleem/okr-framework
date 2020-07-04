@@ -72,7 +72,7 @@ export const KeyResultUpdate: React.FC<KeyResultUpdateProps> = ({ id }) => {
           }
         });
       }}
-      updateLoading={false}
+      updateLoading={updateLoading}
     />
   );
 };
