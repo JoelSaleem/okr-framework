@@ -1,5 +1,6 @@
 import { schema } from "nexus";
 import { getUserId } from "../utils";
+import { createLogicalAnd } from "typescript";
 
 schema.objectType({
   name: "Objective",
@@ -128,7 +129,7 @@ schema.extendType({
         parentObjective: schema.intArg({ required: false }),
       },
       nullable: false,
-      resolve(_root, args, ctx) {
+      async resolve(_root, args, ctx) {
         const userId = getUserId(ctx);
         if (!userId) {
           throw new Error("Not authorized");

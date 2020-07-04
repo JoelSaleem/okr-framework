@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { OBJECTIVE } from "../../Queries";
 import { UPDATE_OBJECTIVE } from "../../Mutations";
+import { Button } from "../Layout/Button";
 
 interface ObjectiveUpdate {
   id: number;
@@ -40,21 +41,50 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
   );
 
   return (
-    <ObjectiveForm
-      id={id.toString()}
-      title={title}
-      description={description}
-      createdAt={formattedDate}
-      setTitle={setTitle}
-      setDescription={setDescription}
-      updateLoading={updateLoading}
-      onSubmit={updateObjective}
-      onBack={() => {
-        router.push({
-          pathname: "/objectives",
-        });
-      }}
-      submitText={"Save"}
-    />
+    <>
+      <ObjectiveForm
+        id={id.toString()}
+        title={title}
+        description={description}
+        createdAt={formattedDate}
+        setTitle={setTitle}
+        setDescription={setDescription}
+        updateLoading={updateLoading}
+        onSubmit={updateObjective}
+        onBack={() => {
+          router.push({
+            pathname: "/objectives",
+          });
+        }}
+        submitText={"Save"}
+      />
+      <Button
+        onClick={() => {
+          router.push({
+            pathname: "/objectives",
+            query: {
+              parent: id,
+            },
+          });
+        }}
+      >
+        View Child Objectives
+      </Button>
+      <Button
+        onClick={() => {
+          router.push({
+            pathname: "/objective",
+            query: {
+              parent: id,
+            },
+          });
+        }}
+      >
+        Create Child Objectives
+      </Button>
+      <Button>View Key Results</Button>
+      <Button>Create Key Result</Button>
+      <Button>Delete Objective</Button>
+    </>
   );
 };

@@ -11,11 +11,12 @@ export const ObjectiveCreate = () => {
   const [description, setDescription] = useState("");
 
   const parentId = router.query.parent;
+  console.log("%c parent ", "background: purple; color: white", parentId);
   const [createObjective, { data, loading }] = useMutation(CREATE_OBJECTIVE, {
     variables: {
       title,
       description,
-      parentObjective: parentId,
+      parentId: parseInt(parentId as string),
     },
   });
 
