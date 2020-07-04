@@ -10,7 +10,7 @@ export default () => {
   const router = useRouter();
 
   const keyResultId = router.query?.id;
-  const objectiveId = router.query?.objective;
+  const objectiveId = router.query?.parent;
 
   const isCreateView = !keyResultId && objectiveId;
   const isUpdateView = keyResultId && !objectiveId;
@@ -25,15 +25,18 @@ export default () => {
       router.push({
         pathname: "/login",
       });
-    } else if (
-      (!isCreateView && !isUpdateView) ||
-      (isCreateView && isUpdateView)
-    ) {
+    } else if (isCreateView && isUpdateView) {
       router.push({
         pathname: "/",
       });
     }
   });
+
+  console.log(
+    "%c is creaet ",
+    "background: purple; color: white",
+    isCreateView
+  );
 
   return (
     <MainWrapper heading="Key Results">

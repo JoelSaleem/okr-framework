@@ -140,8 +140,6 @@ schema.extendType({
           throw new Error("Not authorized");
         }
 
-        console.log("here"), args;
-
         return ctx.db.keyResult.create({
           data: {
             title: args.title,

@@ -1,13 +1,7 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { LabelInput } from "../Layout/LabelInput";
-import { useState } from "react";
 import { Button } from "../Layout/Button";
-
-import { OBJECTIVE } from "../../Queries";
-import { UPDATE_OBJECTIVE } from "../../Mutations";
 
 const FormWrapper = styled.div`
   display: flex;
@@ -24,13 +18,13 @@ interface KeyResultFormProps {
   title: string;
   description: string;
   target: number;
-  current: number;
+  current?: number;
   createdAt?: string;
   updateLoading: boolean;
   setTitle: (title: string) => void;
   setDescription: (descr: string) => void;
   setTarget: (target: number) => void;
-  setCurrent: (curr: number) => void;
+  setCurrent?: (curr: number) => void;
   onSubmit: () => void;
   onBack: () => void;
   submitText: string;
@@ -69,14 +63,16 @@ export const KeyResultForm: React.FC<KeyResultFormProps> = ({
         value={description ?? ""}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <LabelInput
-        label="Current"
-        value={(current ?? 0).toString()}
-        onChange={(e) => {
-          const num = e.target.value || "0";
-          setCurrent(parseInt(num));
-        }}
-      />
+      {!createMode && (
+        <LabelInput
+          label="Current"
+          value={(current ?? 0).toString()}
+          onChange={(e) => {
+            const num = e.target.value || "0";
+            setCurrent(parseInt(num));
+          }}
+        />
+      )}
       <LabelInput
         label="Target"
         value={(target ?? 0).toString()}
