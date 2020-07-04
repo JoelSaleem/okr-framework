@@ -8,9 +8,11 @@ const Wrapper = styled.div`
 `;
 
 const LabelWrapper = styled.span`
+  text-align: end;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  padding-right: 12px; 
 `;
 
 interface LabelInputProps {
@@ -18,6 +20,7 @@ interface LabelInputProps {
   label: string;
   value: string;
   type?: string;
+  disabled?: boolean;
 }
 
 export const LabelInput: React.FC<LabelInputProps> = ({
@@ -25,11 +28,21 @@ export const LabelInput: React.FC<LabelInputProps> = ({
   onChange,
   value,
   type,
+  disabled = false,
 }) => {
   return (
     <Wrapper>
       <LabelWrapper>{label}</LabelWrapper>
-      <Input type={type} onChange={onChange} value={value} />
+      <Input
+        disabled={disabled}
+        type={type}
+        onChange={(e) => {
+          if (!disabled) {
+            onChange(e);
+          }
+        }}
+        value={value}
+      />
     </Wrapper>
   );
 };

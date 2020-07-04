@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Theme } from "../themes";
 
-const ListContainer = styled.div<{ withHover: boolean }>`
+const ListContainer = styled.div<{ withHover: boolean; onClick: () => void }>`
   display: flex;
   flex-direction: column;
   text-align: start;
@@ -39,6 +39,7 @@ interface ListItemProps {
   description: string;
   createdAt: string;
   withHover?: boolean;
+  onClick?: () => void;
 }
 
 export const ListItem: React.FC<ListItemProps> = ({
@@ -47,9 +48,10 @@ export const ListItem: React.FC<ListItemProps> = ({
   description,
   createdAt,
   withHover = false,
+  onClick = () => {},
 }) => {
   return (
-    <ListContainer key={id} withHover={withHover}>
+    <ListContainer key={id} withHover={withHover} onClick={onClick}>
       <ListTitle>Title:</ListTitle> <span>{title}</span>
       <ListTitle>Description:</ListTitle> <span>{description}</span>
       <ListTitle>Created At:</ListTitle>

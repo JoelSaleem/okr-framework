@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import { Card } from "../components/Layout/Card";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { Button } from "../components/Layout/Button";
+import { MainWrapper } from "../components/Layout/MainWrapper";
 import { ObjectivesList } from "../components/Objectives/ObjectivesList";
+import { LOCAL_STORAGE_TOKEN_KEY } from "./_app";
 
 const Grid = styled.div`
   height: 100%;
@@ -11,7 +15,7 @@ const Grid = styled.div`
 `;
 
 const Heading = styled.h3`
-  grid-area: 1 / 2 / 2/ 3;
+  grid-area: 1 / 2 / 2 / 3;
 `;
 
 const BodyWrapper = styled.div`
@@ -19,14 +23,38 @@ const BodyWrapper = styled.div`
 `;
 
 export default () => {
+  const router = useRouter();
+
+  // Redirect if not logged in
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+    if (!token) {
+      router.push({
+        pathname: "/login",
+      });
+    }
+  });
   return (
-    <Grid>
-      <Heading>Objectives</Heading>
-      <BodyWrapper>
-        <Card>
-          <ObjectivesList />
-        </Card>
-      </BodyWrapper>
-    </Grid>
+    <MainWrapper heading="Objectives">
+      <ObjectivesList />
+      <Button
+        onClick={() => {
+          router.push("/objective");
+        }}
+      >
+        Create
+      </Button>
+      <Button
+        onClick={() => {
+          router.push("/");
+        }}
+        secondary
+      >
+        Back
+      </Button>
+    </MainWrapper>
   );
 };
