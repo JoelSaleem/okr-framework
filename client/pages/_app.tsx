@@ -44,19 +44,6 @@ const GlobalStyle = createGlobalStyle`
 
 export default ({ Component, pageProps }) => {
   const [idx, switchTheme] = useTheme();
-  // client
-  //   .query({
-  //     query: gql`
-  //       {
-  //         users {
-  //           id
-  //         }
-  //       }
-  //     `,
-  //   })
-  //   .then((res) => {
-  //     console.log("res", res);
-  //   });
 
   return (
     <ApolloProvider client={client}>
