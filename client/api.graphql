@@ -54,6 +54,7 @@ type Query {
   keyResults: [KeyResult!]!
   objective(id: Int!): Objective
   objectives: [Objective!]!
+  objectivesOfParent(parent: Int!): [Objective!]
   users: [User!]!
 }
 

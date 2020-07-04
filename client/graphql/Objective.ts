@@ -90,6 +90,30 @@ schema.extendType({
         return obj;
       },
     });
+    t.list.field("objectivesOfParent", {
+      type: "Objective",
+      nullable: true,
+      args: { parent: schema.intArg({ required: true }) },
+      async resolve(_root, { parent }, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        const obj = await ctx.db.objective.findMany({
+          where: {
+            user: {
+              id: userId,
+            },
+            parentObjective: {
+              id: parent,
+            },
+          },
+        });
+
+        return obj;
+      },
+    });
   },
 });
 
