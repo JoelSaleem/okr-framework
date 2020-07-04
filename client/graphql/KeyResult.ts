@@ -92,7 +92,7 @@ schema.extendType({
         return kr;
       },
     });
-    t.list.field("keyResultOfObjective", {
+    t.list.field("keyResultsOfObjective", {
       type: "KeyResult",
       nullable: false,
       args: { parent: schema.intArg() },

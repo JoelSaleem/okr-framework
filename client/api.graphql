@@ -50,8 +50,8 @@ type Objective {
 
 type Query {
   keyResult(id: Int): KeyResult!
-  keyResultOfObjective(parent: Int): [KeyResult!]!
   keyResults: [KeyResult!]!
+  keyResultsOfObjective(parent: Int): [KeyResult!]!
   objective(id: Int!): Objective
   objectives: [Objective!]!
   objectivesOfParent(parent: Int!): [Objective!]
