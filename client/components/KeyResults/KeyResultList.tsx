@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
+import { useEffect, useState } from "react";
+import { useLazyQuery } from "@apollo/react-hooks";
 import { KEY_RESULTS, KEY_RESULT_OF_PARENT } from "../../Queries";
 import { KeyResult } from "../../types";
 import { KeyResultListItem } from "../List/KeyResultListItem";
@@ -16,21 +17,33 @@ interface KeyResultList {
 
 export const KeyResultList: React.FC<KeyResultList> = ({ parent }) => {
   const router = useRouter();
+  const [keyResults, setKeyResults] = useState<KeyResult[]>([]);
 
-  let keyResults: KeyResult[] = [];
-
-  const { data: noParentQuery } = useQuery(KEY_RESULTS);
-  const { data: queryWithParent } = useQuery(KEY_RESULT_OF_PARENT, {
+  const [fetchAll, { data: allKR, called: allCalled }] = useLazyQuery(
+    KEY_RESULTS
+  );
+  const [
+    fetchChildren,
+    { data: childKRs, called: childrenCalled },
+  ] = useLazyQuery(KEY_RESULT_OF_PARENT, {
     variables: {
       parent,
     },
   });
 
-  if (parent) {
-    keyResults = queryWithParent?.keyResultsOfObjective ?? [];
-  } else {
-    keyResults = noParentQuery?.keyResults ?? [];
-  }
+  useEffect(() => {
+    if (parent) {
+      if (!childrenCalled) {
+        fetchChildren();
+      }
+      setKeyResults(childKRs?.keyResultsOfObjective ?? []);
+    } else {
+      if (!allCalled) {
+        fetchAll();
+      }
+      setKeyResults(allKR?.keyResults ?? []);
+    }
+  }, [parent, keyResults, childrenCalled, allCalled]);
 
   const selectKR = (id: number) =>
     router.push({

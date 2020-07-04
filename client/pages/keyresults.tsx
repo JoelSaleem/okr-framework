@@ -23,7 +23,7 @@ export default () => {
     }
   });
   return (
-    <MainWrapper heading="Objectives">
+    <MainWrapper heading="Key Results">
       <KeyResultList
         parent={(parent as string) ? parseInt(parent as string) : undefined}
       />
