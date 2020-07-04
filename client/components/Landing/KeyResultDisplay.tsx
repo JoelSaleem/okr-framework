@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useQuery } from "@apollo/react-hooks";
 import { KEY_RESULTS } from "../../Queries";
 import { KeyResultListItem } from "../List/KeyResultListItem";
@@ -12,6 +13,8 @@ interface KeyResultDisplayProps {
 export const KeyResultDisplay: React.FC<KeyResultDisplayProps> = ({
   isSmallScreen,
 }) => {
+  const router = useRouter();
+
   const { data } = useQuery(KEY_RESULTS);
   const keyResults: KeyResult[] = data?.keyResults ?? [];
 
@@ -22,6 +25,15 @@ export const KeyResultDisplay: React.FC<KeyResultDisplayProps> = ({
         {keyResults.map(({ id, title, target, current }) => {
           return (
             <KeyResultListItem
+              withHover
+              onClick={() => {
+                router.push({
+                  pathname: "/keyresult",
+                  query: {
+                    id,
+                  },
+                });
+              }}
               id={id}
               key={id}
               title={title}

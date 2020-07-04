@@ -40,7 +40,7 @@ export const KEY_RESULTS = gql`
 
 export const KEY_RESULT = gql`
   query KeyResult($id: Int!) {
-    keyResults(id: $id) {
+    keyResult(id: $id) {
       id
       title
       description

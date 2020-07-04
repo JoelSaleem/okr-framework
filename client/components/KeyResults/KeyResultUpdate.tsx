@@ -1,0 +1,78 @@
+import { useRouter } from "next/router";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { KEY_RESULT } from "../../Queries";
+import { UPDATE_KEY_RESULT } from "../../Mutations";
+
+import { KeyResultForm } from "./KeyResultForm";
+import { useState, useEffect } from "react";
+
+interface KeyResultUpdateProps {
+  id: number;
+}
+
+export const KeyResultUpdate: React.FC<KeyResultUpdateProps> = ({ id }) => {
+  const router = useRouter();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [target, setTarget] = useState(0);
+  const [current, setCurrent] = useState(0);
+
+  const { data, loading } = useQuery(KEY_RESULT, {
+    variables: {
+      id,
+    },
+  });
+
+  useEffect(() => {
+    if (!loading) {
+      setTitle(data?.keyResult?.title ?? "");
+      setDescription(data?.keyResult?.description ?? "");
+      setTarget(data?.keyResult?.target ?? 0);
+      setCurrent(data?.keyResult?.current ?? 0);
+    }
+  }, [loading]);
+
+  const [updateKR, { loading: updateLoading }] = useMutation(
+    UPDATE_KEY_RESULT,
+    {
+      variables: {
+        id,
+        title,
+        description,
+        target,
+        current,
+      },
+    }
+  );
+
+  return (
+    <KeyResultForm
+      id={id.toString()}
+      title={title}
+      setTitle={setTitle}
+      description={description}
+      setDescription={setDescription}
+      current={current}
+      setCurrent={setCurrent}
+      target={target}
+      setTarget={setTarget}
+      submitText="Save"
+      onBack={() => {
+        router.push({
+          pathname: "/",
+        });
+      }}
+      onSubmit={() => {
+        updateKR().then((data) => {
+          if (data?.data?.updateKeyResult) {
+            router.push({
+              pathname: "/",
+            });
+          }
+        });
+      }}
+      updateLoading={false}
+    />
+  );
+};

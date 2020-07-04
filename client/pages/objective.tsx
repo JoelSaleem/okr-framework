@@ -9,7 +9,7 @@ export default () => {
   const router = useRouter();
   const objectiveId = router.query.id;
 
-  // Redirect if not logged in or no objective selected
+  // Redirect if not logged in
   useEffect(() => {
     if (typeof window === "undefined") {
       return;

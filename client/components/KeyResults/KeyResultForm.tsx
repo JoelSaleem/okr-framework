@@ -19,25 +19,33 @@ const FormWrapper = styled.div`
   overflow: auto;
 `;
 
-interface ObjectiveFormProps {
+interface KeyResultFormProps {
   id?: string;
   title: string;
   description: string;
+  target: number;
+  current: number;
   createdAt?: string;
   updateLoading: boolean;
   setTitle: (title: string) => void;
   setDescription: (descr: string) => void;
+  setTarget: (target: number) => void;
+  setCurrent: (curr: number) => void;
   onSubmit: () => void;
   onBack: () => void;
   submitText: string;
   createMode?: boolean;
 }
 
-export const ObjectiveForm: React.FC<ObjectiveFormProps> = ({
+export const KeyResultForm: React.FC<KeyResultFormProps> = ({
   id,
   title,
   description,
   createdAt,
+  target,
+  current,
+  setTarget,
+  setCurrent,
   setTitle,
   setDescription,
   updateLoading,
@@ -60,6 +68,22 @@ export const ObjectiveForm: React.FC<ObjectiveFormProps> = ({
         label="Description"
         value={description ?? ""}
         onChange={(e) => setDescription(e.target.value)}
+      />
+      <LabelInput
+        label="Current"
+        value={(current ?? 0).toString()}
+        onChange={(e) => {
+          const num = e.target.value || "0";
+          setCurrent(parseInt(num));
+        }}
+      />
+      <LabelInput
+        label="Target"
+        value={(target ?? 0).toString()}
+        onChange={(e) => {
+          let num = e.target.value || "0";
+          setTarget(parseInt(num));
+        }}
       />
       {!createMode && (
         <LabelInput

@@ -23,3 +23,28 @@ export const CREATE_OBJECTIVE = gql`
     }
   }
 `;
+
+export const UPDATE_KEY_RESULT = gql`
+  mutation UpdateKR(
+    $id: Int!
+    $title: String
+    $current: Int
+    $target: Int
+    $description: String
+  ) {
+    updateKeyResult(
+      id: $id
+      title: $title
+      current: $current
+      target: $target
+      description: $description
+    ) {
+      id
+      title
+      current
+      description
+      target
+      current
+    }
+  }
+`;
