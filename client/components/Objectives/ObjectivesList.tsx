@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
+import { useEffect, useState } from "react";
+import { useLazyQuery } from "@apollo/react-hooks";
 import { OBJECTIVES, OBJECTIVES_OF_PARIENT } from "../../Queries";
 import { Objective } from "../../types";
 import { ObjectiveListItem } from "../List/ObjectiveListItem";
@@ -13,19 +14,37 @@ const ListWrapper = styled.div`
 export const ObjectivesList = () => {
   const router = useRouter();
   const parent = router.query?.parent;
-  const { data: allObjectives } = useQuery(OBJECTIVES);
-  const { data: childObjectives } = useQuery(OBJECTIVES_OF_PARIENT, {
+
+  // Fetch Objectives
+  const [fetchAll, { data: allObjectives, called: allCalled }] = useLazyQuery(
+    OBJECTIVES
+  );
+
+  // Fetch child Objectives
+  const [
+    fetchChildren,
+    { data: childObjectives, called: childrenCalled },
+  ] = useLazyQuery(OBJECTIVES_OF_PARIENT, {
     variables: {
       parent: parseInt(parent as string),
     },
   });
 
-  let objectives: Objective[] = [];
-  if (parent) {
-    objectives = childObjectives?.objectivesOfParent ?? [];
-  } else {
-    objectives = allObjectives?.objectives ?? [];
-  }
+  // decide to render either child obj or all objectives
+  const [objectives, setObjectives] = useState<Objective[]>([]);
+  useEffect(() => {
+    if (parent) {
+      if (!childrenCalled) {
+        fetchChildren();
+      }
+      setObjectives(childObjectives?.objectivesOfParent ?? []);
+    } else {
+      if (!allCalled) {
+        fetchAll();
+      }
+      setObjectives(allObjectives?.objectives ?? []);
+    }
+  }, [parent, objectives, childrenCalled, allCalled]);
 
   const selectObjective = (id: number) =>
     router.push({
