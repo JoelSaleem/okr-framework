@@ -6,7 +6,7 @@ import { Button } from "../Layout/Button";
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-height: 30%;
+  max-height: 60%;
   height: 100%;
   justify-content: space-evenly;
   padding: 12px;

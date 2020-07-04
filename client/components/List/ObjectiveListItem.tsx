@@ -22,8 +22,6 @@ export const ObjectiveListItem: React.FC<ListItemProps> = ({
     <ListContainer key={id} withHover={withHover} onClick={onClick}>
       <ListTitle>Title:</ListTitle> <span>{title}</span>
       <ListTitle>Description:</ListTitle> <span>{description}</span>
-      <ListTitle>Created At:</ListTitle>
-      <span>{new Date(createdAt).toString()}</span>
     </ListContainer>
   );
 };

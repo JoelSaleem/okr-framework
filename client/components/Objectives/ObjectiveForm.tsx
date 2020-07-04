@@ -12,7 +12,7 @@ import { UPDATE_OBJECTIVE } from "../../Mutations";
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-height: 30%;
+  max-height: 50%;
   height: 100%;
   justify-content: space-evenly;
   padding: 12px;

@@ -1,13 +1,14 @@
 import { useRouter } from "next/router";
-import { ObjectiveForm } from "./ObjectiveForm";
-
 import { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useState } from "react";
+import Popup from "reactjs-popup";
 
 import { OBJECTIVE } from "../../Queries";
-import { UPDATE_OBJECTIVE } from "../../Mutations";
+import { UPDATE_OBJECTIVE, DELETE_OBJECTIVE } from "../../Mutations";
+
 import { Button } from "../Layout/Button";
+import { ObjectiveForm } from "./ObjectiveForm";
 
 interface ObjectiveUpdate {
   id: number;
@@ -16,6 +17,9 @@ interface ObjectiveUpdate {
 export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
   const router = useRouter();
   const { data, loading } = useQuery(OBJECTIVE, { variables: { id } });
+  const [deleteObjective] = useMutation(DELETE_OBJECTIVE, {
+    variables: { id },
+  });
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -96,7 +100,6 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
       </Button>
       <Button
         onClick={() => {
-          
           router.push({
             pathname: "/keyresult",
             query: {
@@ -107,7 +110,24 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
       >
         Create Key Result
       </Button>
-      <Button>Delete Objective</Button>
+      <Popup
+        trigger={<Button secondary>Delete Objective</Button>}
+        position="center center"
+      >
+        <Button
+          onClick={() => {
+            deleteObjective().then((data) => {
+              if (data.data?.deleteObjective) {
+                router.push({
+                  pathname: "/objectives",
+                });
+              }
+            });
+          }}
+        >
+          Confirm
+        </Button>
+      </Popup>
     </>
   );
 };

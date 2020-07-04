@@ -24,6 +24,12 @@ export const CREATE_OBJECTIVE = gql`
   }
 `;
 
+export const DELETE_OBJECTIVE = gql`
+  mutation DeleteObjective($id: Int!) {
+    deleteObjective(id: $id)
+  }
+`;
+
 export const UPDATE_KEY_RESULT = gql`
   mutation UpdateKR(
     $id: Int!
@@ -71,5 +77,11 @@ export const CREATE_KEY_RESULT = gql`
         id
       }
     }
+  }
+`;
+
+export const DELETE_KEY_RESULT = gql`
+  mutation DeleteKeyResult($id: Int!) {
+    deleteKeyResult(id: $id)
   }
 `;

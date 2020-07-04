@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { KEY_RESULT } from "../../Queries";
-import { UPDATE_KEY_RESULT } from "../../Mutations";
+import { UPDATE_KEY_RESULT, DELETE_KEY_RESULT } from "../../Mutations";
+import Popup from "reactjs-popup";
+import { Button } from "../Layout/Button";
 
 import { KeyResultForm } from "./KeyResultForm";
 import { useState, useEffect } from "react";
@@ -12,6 +14,11 @@ interface KeyResultUpdateProps {
 
 export const KeyResultUpdate: React.FC<KeyResultUpdateProps> = ({ id }) => {
   const router = useRouter();
+  const [deleteKR] = useMutation(DELETE_KEY_RESULT, {
+    variables: {
+      id,
+    },
+  });
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -47,32 +54,52 @@ export const KeyResultUpdate: React.FC<KeyResultUpdateProps> = ({ id }) => {
   );
 
   return (
-    <KeyResultForm
-      id={id.toString()}
-      title={title}
-      setTitle={setTitle}
-      description={description}
-      setDescription={setDescription}
-      current={current}
-      setCurrent={setCurrent}
-      target={target}
-      setTarget={setTarget}
-      submitText="Save"
-      onBack={() => {
-        router.push({
-          pathname: "/",
-        });
-      }}
-      onSubmit={() => {
-        updateKR().then((data) => {
-          if (data?.data?.updateKeyResult) {
-            router.push({
-              pathname: "/",
+    <>
+      <KeyResultForm
+        id={id.toString()}
+        title={title}
+        setTitle={setTitle}
+        description={description}
+        setDescription={setDescription}
+        current={current}
+        setCurrent={setCurrent}
+        target={target}
+        setTarget={setTarget}
+        submitText="Save"
+        onBack={() => {
+          router.push({
+            pathname: "/",
+          });
+        }}
+        onSubmit={() => {
+          updateKR().then((data) => {
+            if (data?.data?.updateKeyResult) {
+              router.push({
+                pathname: "/",
+              });
+            }
+          });
+        }}
+        updateLoading={updateLoading}
+      />
+      <Popup
+        trigger={<Button secondary>Delete KR</Button>}
+        position="center center"
+      >
+        <Button
+          onClick={() => {
+            deleteKR().then((data) => {
+              if (data.data?.deleteKeyResult) {
+                router.push({
+                  pathname: "/keyresults",
+                });
+              }
             });
-          }
-        });
-      }}
-      updateLoading={updateLoading}
-    />
+          }}
+        >
+          Confirm
+        </Button>
+      </Popup>
+    </>
   );
 };
