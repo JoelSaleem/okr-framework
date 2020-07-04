@@ -82,7 +82,18 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
       >
         Create Child Objectives
       </Button>
-      <Button>View Key Results</Button>
+      <Button
+        onClick={() => {
+          router.push({
+            pathname: "/keyresults",
+            query: {
+              parent: id,
+            },
+          });
+        }}
+      >
+        View Key Results
+      </Button>
       <Button>Create Key Result</Button>
       <Button>Delete Objective</Button>
     </>
