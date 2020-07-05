@@ -3,26 +3,22 @@ import { useRouter } from "next/router";
 import { KeyResultForm } from "./KeyResultForm";
 import { useState } from "react";
 import { CREATE_KEY_RESULT } from "../../Mutations";
+import { KEY_RESULTS } from "../../Queries";
 import { useMutation } from "@apollo/react-hooks";
 
 interface KeyResultCreateProps {
   objectiveId: number;
 }
 
-export const KeyResultCreate: React.FC<KeyResultCreateProps> = ({ id }) => {
+export const KeyResultCreate: React.FC<KeyResultCreateProps> = ({
+  objectiveId,
+}) => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [target, setTarget] = useState(0);
 
   const parentId = router.query.parent;
-  console.log("%c parent ", "background: purple; color: white", {
-    title,
-    description,
-    parentId: parseInt(parentId as string),
-    objective: parent,
-    target,
-  });
   const [createObjective, { data, loading }] = useMutation(CREATE_KEY_RESULT, {
     variables: {
       title,
@@ -30,6 +26,8 @@ export const KeyResultCreate: React.FC<KeyResultCreateProps> = ({ id }) => {
       objective: parseInt(parentId as string),
       target,
     },
+    refetchQueries: [{ query: KEY_RESULTS }],
+    awaitRefetchQueries: true,
   });
 
   return (

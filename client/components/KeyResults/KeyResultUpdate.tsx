@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { KEY_RESULT } from "../../Queries";
+import { KEY_RESULT, KEY_RESULTS } from "../../Queries";
 import { UPDATE_KEY_RESULT, DELETE_KEY_RESULT } from "../../Mutations";
 import Popup from "reactjs-popup";
 import { Button } from "../Layout/Button";
@@ -18,6 +18,9 @@ export const KeyResultUpdate: React.FC<KeyResultUpdateProps> = ({ id }) => {
     variables: {
       id,
     },
+    refetchQueries: [{ query: KEY_RESULTS, variables: { id } }],
+    optimisticResponse: true,
+    awaitRefetchQueries: true,
   });
 
   const [title, setTitle] = useState("");

@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useState } from "react";
 import Popup from "reactjs-popup";
 
-import { OBJECTIVE } from "../../Queries";
+import { OBJECTIVE, OBJECTIVES } from "../../Queries";
 import { UPDATE_OBJECTIVE, DELETE_OBJECTIVE } from "../../Mutations";
 
 import { Button } from "../Layout/Button";
@@ -19,6 +19,8 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
   const { data, loading } = useQuery(OBJECTIVE, { variables: { id } });
   const [deleteObjective] = useMutation(DELETE_OBJECTIVE, {
     variables: { id },
+    refetchQueries: [{ query: OBJECTIVES }],
+    awaitRefetchQueries: true,
   });
 
   const [title, setTitle] = useState<string>("");
@@ -41,6 +43,8 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
     UPDATE_OBJECTIVE,
     {
       variables: data?.objective ? { id, title, description } : { id },
+      refetchQueries: [{ query: OBJECTIVES }],
+      awaitRefetchQueries: true,
     }
   );
 

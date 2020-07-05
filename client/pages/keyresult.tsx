@@ -41,7 +41,9 @@ export default () => {
   return (
     <MainWrapper heading="Key Results">
       {isUpdateView && <KeyResultUpdate id={parseInt(keyResultId as string)} />}
-      {isCreateView && <KeyResultCreate />}
+      {isCreateView && (
+        <KeyResultCreate objectiveId={parseInt(objectiveId as string)} />
+      )}
     </MainWrapper>
   );
 };
