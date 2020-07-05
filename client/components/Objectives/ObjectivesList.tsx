@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 const ListWrapper = styled.div`
   overflow: auto;
-  max-height: 80vh;
+  max-height: 66vh;
 `;
 
 export const ObjectivesList = () => {

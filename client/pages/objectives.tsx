@@ -20,12 +20,16 @@ export default () => {
       });
     }
   });
+
   return (
     <MainWrapper heading="Objectives">
       <ObjectivesList />
       <Button
         onClick={() => {
-          router.push("/objective");
+          router.push({
+            pathname: "/objective",
+            query: { parent: router.query.parent },
+          });
         }}
       >
         Create

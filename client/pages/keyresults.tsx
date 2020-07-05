@@ -29,13 +29,6 @@ export default () => {
       />
       <Button
         onClick={() => {
-          router.push("/keyresult");
-        }}
-      >
-        Create
-      </Button>
-      <Button
-        onClick={() => {
           router.push("/");
         }}
         secondary
