@@ -32,12 +32,6 @@ export default () => {
     }
   });
 
-  console.log(
-    "%c is creaet ",
-    "background: purple; color: white",
-    isCreateView
-  );
-
   return (
     <MainWrapper heading="Key Results">
       {isUpdateView && <KeyResultUpdate id={parseInt(keyResultId as string)} />}

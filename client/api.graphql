@@ -55,6 +55,7 @@ type Query {
   objective(id: Int!): Objective
   objectives: [Objective!]!
   objectivesOfParent(parent: Int!): [Objective!]
+  rootObjectives: [Objective!]!
   users: [User!]!
 }
 

@@ -11,6 +11,17 @@ export const OBJECTIVES = gql`
   }
 `;
 
+export const ROOT_OBJECTIVES = gql`
+  {
+    rootObjectives {
+      id
+      title
+      description
+      createdAt
+    }
+  }
+`;
+
 export const OBJECTIVE = gql`
   query Objective($id: Int!) {
     objective(id: $id) {

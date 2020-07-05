@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Objective } from "../../types";
 import { useQuery } from "@apollo/react-hooks";
-import { OBJECTIVES } from "../../Queries";
+import { ROOT_OBJECTIVES } from "../../Queries";
 
 import { ObjectiveListItem } from "../List/ObjectiveListItem";
 import { ResponsiveListWrapper } from "../List/ResponsiveListWrapper";
@@ -16,8 +16,8 @@ export const ObjectiveDisplay: React.FC<ObjectiveDisplayProps> = ({
 }) => {
   const router = useRouter();
 
-  const { data } = useQuery(OBJECTIVES);
-  const objectives: Objective[] = data?.objectives ?? [];
+  const { data } = useQuery(ROOT_OBJECTIVES);
+  const objectives: Objective[] = data?.rootObjectives ?? [];
 
   const onClick = () => {
     router.push({

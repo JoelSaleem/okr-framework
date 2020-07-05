@@ -64,6 +64,26 @@ schema.extendType({
         });
       },
     });
+    t.field("rootObjectives", {
+      type: "Objective",
+      nullable: false,
+      list: true,
+      async resolve(_root, _args, ctx) {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new Error("Not authorized");
+        }
+
+        return ctx.db.objective.findMany({
+          where: {
+            user: {
+              id: userId,
+            },
+            parentId: null,
+          },
+        });
+      },
+    });
     t.field("objective", {
       type: "Objective",
       nullable: true,

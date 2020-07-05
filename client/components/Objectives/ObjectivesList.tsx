@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { OBJECTIVES, OBJECTIVES_OF_PARIENT } from "../../Queries";
+import { ROOT_OBJECTIVES, OBJECTIVES_OF_PARIENT } from "../../Queries";
 import { Objective } from "../../types";
 import { ObjectiveListItem } from "../List/ObjectiveListItem";
 import { useRouter } from "next/router";
@@ -17,7 +17,7 @@ export const ObjectivesList = () => {
 
   // Fetch Objectives
   const [fetchAll, { data: allObjectives, called: allCalled }] = useLazyQuery(
-    OBJECTIVES
+    ROOT_OBJECTIVES
   );
 
   // Fetch child Objectives
@@ -42,7 +42,7 @@ export const ObjectivesList = () => {
       if (!allCalled) {
         fetchAll();
       }
-      setObjectives(allObjectives?.objectives ?? []);
+      setObjectives(allObjectives?.rootObjectives ?? []);
     }
   }, [parent, objectives, childrenCalled, allCalled]);
 
