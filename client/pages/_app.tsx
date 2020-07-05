@@ -6,7 +6,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 export const LOCAL_STORAGE_TOKEN_KEY = "OKR_LS_TOKEN";
 
 const client = new ApolloClient({
-  uri: "https://okr-framework.vercel.app/api/graphql",
+  uri: "https://okrs.vercel.app/api/graphql",
   request: (operation: Operation) => {
     if (typeof window === "undefined") {
       return;
