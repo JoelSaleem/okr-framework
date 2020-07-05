@@ -91,7 +91,7 @@ export const KeyResultUpdate: React.FC<KeyResultUpdateProps> = ({ id }) => {
       >
         <Button
           onClick={() => {
-            deleteKR().then((data) => {
+            deleteKR().then((data: any) => {
               if (data.data?.deleteKeyResult) {
                 router.push({
                   pathname: "/keyresults",
