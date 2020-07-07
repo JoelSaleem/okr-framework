@@ -12,28 +12,31 @@ const LabelWrapper = styled.span`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 12px; 
+  padding-right: 12px;
 `;
 
-interface LabelInputProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+export interface LabelInputProps {
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   label: string;
   value: string;
   type?: string;
   disabled?: boolean;
+  onBlur?: (e: any) => void;
 }
 
 export const LabelInput: React.FC<LabelInputProps> = ({
   label,
-  onChange,
+  onChange = () => {},
   value,
   type,
   disabled = false,
+  onBlur = () => {},
 }) => {
   return (
     <Wrapper>
       <LabelWrapper>{label}</LabelWrapper>
       <Input
+        onBlur={(e) => onBlur(e)}
         disabled={disabled}
         type={type}
         onChange={(e) => {

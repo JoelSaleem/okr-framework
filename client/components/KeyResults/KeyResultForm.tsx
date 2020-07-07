@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useQuery, useMutation } from "@apollo/react-hooks";
 import { LabelInput } from "../Layout/LabelInput";
+import { NumberInput } from "../Layout/NumberInput";
 import { Button } from "../Layout/Button";
 
 const FormWrapper = styled.div`
@@ -64,20 +64,20 @@ export const KeyResultForm: React.FC<KeyResultFormProps> = ({
         onChange={(e) => setDescription(e.target.value)}
       />
       {!createMode && (
-        <LabelInput
+        <NumberInput
           label="Current"
           value={(current ?? 0).toString()}
-          onChange={(e) => {
-            const num = e.target.value || "0";
+          onChange={(val: string) => {
+            const num = val || "0";
             setCurrent(parseInt(num));
           }}
         />
       )}
-      <LabelInput
+      <NumberInput
         label="Target"
         value={(target ?? 0).toString()}
-        onChange={(e) => {
-          let num = e.target.value || "0";
+        onChange={(val: string) => {
+          const num = val || "0";
           setTarget(parseInt(num));
         }}
       />
