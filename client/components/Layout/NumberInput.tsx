@@ -9,11 +9,12 @@ export const NumberInput: React.FC<
   useEffect(() => {
     setInternalVal(value);
   }, [value]);
+
   return (
     <LabelInput
       onBlur={() => {
         if (!internalVal) {
-          onChange(value);
+          setInternalVal(value);
         } else {
           onChange(internalVal);
         }
