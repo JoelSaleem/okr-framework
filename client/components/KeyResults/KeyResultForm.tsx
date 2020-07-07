@@ -68,7 +68,7 @@ export const KeyResultForm: React.FC<KeyResultFormProps> = ({
           label="Current"
           value={(current ?? 0).toString()}
           onChange={(val: string) => {
-            const num = val || "0";
+            const num = val || current.toString();
             setCurrent(parseInt(num));
           }}
         />
@@ -77,7 +77,7 @@ export const KeyResultForm: React.FC<KeyResultFormProps> = ({
         label="Target"
         value={(target ?? 0).toString()}
         onChange={(val: string) => {
-          const num = val || "0";
+          const num = val || target.toString();
           setTarget(parseInt(num));
         }}
       />
