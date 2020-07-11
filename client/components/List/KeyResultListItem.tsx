@@ -18,6 +18,19 @@ export const KeyResultListItem: React.FC<ListItemProps> = ({
   withHover = false,
   onClick = () => {},
 }) => {
+  const renderPercentage = () => {
+    let percentage: number = 0;
+
+    if (target !== 0) {
+      percentage = Math.round((current / target) * 100);
+    }
+    return (
+      <>
+        <ListTitle>Percentage</ListTitle>
+        <span>{percentage}%</span>
+      </>
+    );
+  };
   return (
     <ListContainer withHover={withHover} onClick={onClick}>
       <ListTitle>Title:</ListTitle> <span>{title}</span>
@@ -25,6 +38,7 @@ export const KeyResultListItem: React.FC<ListItemProps> = ({
       <span>
         {current} / {target}
       </span>
+      {renderPercentage()}
     </ListContainer>
   );
 };
