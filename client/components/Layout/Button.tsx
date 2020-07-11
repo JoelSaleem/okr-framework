@@ -5,17 +5,23 @@ import { ThemedStyledFunction } from "styled-components";
 interface ButtonProps {
   secondary?: boolean;
   theme?: Theme;
+  disabled?: boolean;
 }
 
-export const Button = styled.a<ButtonProps>`
+const ButtonComponent = styled.a<ButtonProps>`
   display: block;
   background: ${({ secondary, theme }) => {
     return secondary ? theme.ButtonSecondary : theme.ButtonColour;
   }};
+  opacity: ${({ disabled }) => {
+    return disabled ? "0.6" : "1";
+  }};
   padding: 8px 16px;
   border-radius: 4px;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
+  cursor: ${({ disabled }) => {
+    return disabled ? "default" : "pointer";
+  }};
   transition: all 0.15s ease;
   text-align: center;
 
@@ -31,3 +37,25 @@ export const Button = styled.a<ButtonProps>`
     -webkit-transform: translateY(1px);
   }
 `;
+
+export const Button: React.FC<any> = ({
+  children,
+  onClick,
+  disabled = false,
+  ...rest
+}) => {
+  return (
+    <ButtonComponent
+      onClick={(e: any) => {
+        if (disabled) {
+          return;
+        }
+        onClick(e);
+      }}
+      disabled={disabled}
+      {...rest}
+    >
+      {children}
+    </ButtonComponent>
+  );
+};

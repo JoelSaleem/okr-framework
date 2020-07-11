@@ -4,7 +4,12 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useState } from "react";
 import Popup from "reactjs-popup";
 
-import { OBJECTIVE, ROOT_OBJECTIVES } from "../../Queries";
+import {
+  OBJECTIVE,
+  ROOT_OBJECTIVES,
+  KEY_RESULT_OF_PARENT,
+  OBJECTIVES_OF_PARIENT,
+} from "../../Queries";
 import { UPDATE_OBJECTIVE, DELETE_OBJECTIVE } from "../../Mutations";
 
 import { Button } from "../Layout/Button";
@@ -17,6 +22,15 @@ interface ObjectiveUpdate {
 export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
   const router = useRouter();
   const { data, loading } = useQuery(OBJECTIVE, { variables: { id } });
+  const { data: childKRData } = useQuery(KEY_RESULT_OF_PARENT, {
+    variables: { parent: id },
+  });
+  const { data: childObjData } = useQuery(OBJECTIVES_OF_PARIENT, {
+    variables: { parent: id },
+  });
+  const childResults: number = childKRData?.keyResultsOfObjective?.length ?? 0;
+  const childObjectives: number = childObjData?.objectivesOfParent?.length ?? 0;
+
   const [deleteObjective] = useMutation(DELETE_OBJECTIVE, {
     variables: { id },
     refetchQueries: [{ query: ROOT_OBJECTIVES }],
@@ -67,6 +81,7 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
         submitText={"Save"}
       />
       <Button
+        disabled={childObjectives === 0}
         onClick={() => {
           router.push({
             pathname: "/objectives",
@@ -91,6 +106,7 @@ export const ObjectiveUpdate: React.FC<ObjectiveUpdate> = ({ id }) => {
         Create Child Objectives
       </Button>
       <Button
+        disabled={childResults === 0}
         onClick={() => {
           router.push({
             pathname: "/keyresults",
